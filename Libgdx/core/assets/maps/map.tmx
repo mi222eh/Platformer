@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-up" width="100" height="17" tilewidth="32" tileheight="32" nextobjectid="3">
+ <tileset firstgid="1" name="tilesheet" tilewidth="32" tileheight="32" tilecount="4">
+  <image source="tilesheet.png" width="64" height="64"/>
+ </tileset>
+ <layer name="platforms" width="100" height="17">
+  <data encoding="base64" compression="zlib">
+   eJztluEKwCAIhPP9X3p/tzA1SnN2Hwhj0VxnXrUGAAAAAACqQN0zde/AF2ICxDPSn6vHbJ24b0vzb98Dkr7vMa1nvPopY308NdDmR3pXRu13YdXx1DlR+YxaXZekzSndZvNp/++V1xPufrXDDzP1wcq+u+3uadEqqwdbPAb8h5E3rUZEjkrxAKRJALw=
+  </data>
+ </layer>
+ <objectgroup name="player">
+  <object id="1" x="310" y="255">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>
