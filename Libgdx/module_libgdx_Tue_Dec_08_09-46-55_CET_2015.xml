@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_libgdx" default="compile.module.libgdx">
+  <dirname property="module.libgdx.basedir" file="${ant.file.module_libgdx}"/>
+  
+  <property name="module.jdk.home.libgdx" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.libgdx" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.libgdx" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.libgdx" value="-encoding UTF-8 -source 1.6 -target 1.6 ${compiler.args}"/>
+  
+  <property name="libgdx.output.dir" value="${module.libgdx.basedir}/build"/>
+  <property name="libgdx.testoutput.dir" value="${module.libgdx.basedir}/build"/>
+  
+  <path id="libgdx.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="libgdx.module.production.classpath">
+    <path refid="${module.jdk.classpath.libgdx}"/>
+  </path>
+  
+  <path id="libgdx.runtime.production.module.classpath">
+    <pathelement location="${libgdx.output.dir}"/>
+  </path>
+  
+  <path id="libgdx.module.classpath">
+    <path refid="${module.jdk.classpath.libgdx}"/>
+    <pathelement location="${libgdx.output.dir}"/>
+  </path>
+  
+  <path id="libgdx.runtime.module.classpath">
+    <pathelement location="${libgdx.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.libgdx">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.libgdx">
+    <patternset refid="excluded.from.module.libgdx"/>
+  </patternset>
+  
+  
+  <target name="compile.module.libgdx" depends="compile.module.libgdx.production,compile.module.libgdx.tests" description="Compile module Libgdx"/>
+  
+  <target name="compile.module.libgdx.production" depends="register.custom.compilers" description="Compile module Libgdx; production classes"/>
+  
+  <target name="compile.module.libgdx.tests" depends="register.custom.compilers,compile.module.libgdx.production" description="compile module Libgdx; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.libgdx" description="cleanup module">
+    <delete dir="${libgdx.output.dir}"/>
+    <delete dir="${libgdx.testoutput.dir}"/>
+  </target>
+</project>

@@ -5,11 +5,16 @@
  </tileset>
  <layer name="platforms" width="100" height="17">
   <data encoding="base64" compression="zlib">
-   eJztluEKwCAIhPP9X3p/tzA1SnN2Hwhj0VxnXrUGAAAAAACqQN0zde/AF2ICxDPSn6vHbJ24b0vzb98Dkr7vMa1nvPopY308NdDmR3pXRu13YdXx1DlR+YxaXZekzSndZvNp/++V1xPufrXDDzP1wcq+u+3uadEqqwdbPAb8h5E3rUZEjkrxAKRJALw=
+   eJztlMEKQCEIBOv/f7rLO0nCI0NmYwe8Zu2kY5gK8yvDwl6Y2AsTe2FiL0zshYm9MHnFywylzivvUMce/hHn73Zmyh5OcyHutO67EDMgoJjHicuK/91OUtpL8c6ehRzFTFRddvzDbHZv9OzeQ9kZleruuQAtuQCF
+  </data>
+ </layer>
+ <layer name="spikes" width="100" height="17">
+  <data encoding="base64" compression="zlib">
+   eJztzcEJAAAIAzFx/6HdQcWPCfTbiwAAAAAAAPglB+t8bfQ3XTcLcxgAXw==
   </data>
  </layer>
  <objectgroup name="player">
-  <object id="1" x="310" y="255">
+  <object id="1" x="69" y="459">
    <ellipse/>
   </object>
  </objectgroup>

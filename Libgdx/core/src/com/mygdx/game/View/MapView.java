@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Model.Entities.Platform;
 import com.mygdx.game.Model.Entities.Player;
+import com.mygdx.game.Model.Entities.Spike;
 import com.mygdx.game.Model.Map;
 
 /**
@@ -18,22 +19,39 @@ public class MapView {
     Map map;
     Player player;
     Array<Platform> platforms;
+    Array<Spike> spikes;
     Camera camera;
 
-    Sprite floorTexture, playerTexture;
+    Sprite floorTexture, playerTexture, spikeTexture;
 
     public MapView(Map map, Camera camera){
         this.map = map;
         this.player = map.getPlayer();
         this.platforms = map.getPlatforms();
+        this.spikes = map.getSpikes();
         this.camera = camera;
 
         floorTexture = new Sprite(new Texture(Gdx.files.internal("blue.png")));
         playerTexture = new Sprite(new Texture(Gdx.files.internal("red.png")));
+        spikeTexture = new Sprite(new Texture(Gdx.files.internal("purple.png")));
     }
 
     public void render(SpriteBatch batch){
+        drawPlatforms(batch);
+        drawSpikes(batch);
 
+        Vector2 playerPos = camera.getViewPosition(player.getPosition());
+        playerTexture.setSize(player.width * camera.scaleX, player.height * camera.scaleY);
+        playerTexture.setPosition(playerPos.x - camera.displacement, playerPos.y);
+        playerTexture.draw(batch);
+
+        floorTexture.setSize(player.width * camera.scaleX, player.feetHeight * camera.scaleY);
+        floorTexture.setPosition(playerPos.x - camera.displacement, playerPos.y);
+        floorTexture.draw(batch);
+
+    }
+
+    private void drawPlatforms(SpriteBatch batch){
         for (Platform platform :
                 platforms) {
 
@@ -49,15 +67,19 @@ public class MapView {
             playerTexture.setPosition(viewPos.x - camera.displacement, viewPos.y + height - collHeight);
             playerTexture.draw(batch);
         }
-        Vector2 playerPos = camera.getViewPosition(player.getPosition());
-        playerTexture.setSize(player.width * camera.scaleX, player.height * camera.scaleY);
-        playerTexture.setPosition(playerPos.x - camera.displacement, playerPos.y);
-        playerTexture.draw(batch);
+    }
 
-        floorTexture.setSize(player.width * camera.scaleX, player.feetHeight * camera.scaleY);
-        floorTexture.setPosition(playerPos.x - camera.displacement, playerPos.y);
-        floorTexture.draw(batch);
+    private void drawSpikes(SpriteBatch batch){
+        for (Spike spike :
+                spikes) {
+            float width = Spike.width * camera.scaleX;
+            float height = Spike.height * camera.scaleY;
+            Vector2 viewPos = camera.getViewPosition(spike.position);
 
+            spikeTexture.setSize(width, height);
+            spikeTexture.setPosition(viewPos.x - camera.displacement, viewPos.y);
+            spikeTexture.draw(batch);
+        }
     }
 
     public boolean doesPlayerWantToMoveLeft(){

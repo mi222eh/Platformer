@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Created by Hitstorm13 on 2015-12-07.
  */
-public class Platform {
+public class Platform{
     public Vector2 position;
     public static float width = 1;
     public static float height = 1;
