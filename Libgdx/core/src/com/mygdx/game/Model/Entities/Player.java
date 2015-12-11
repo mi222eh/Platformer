@@ -16,27 +16,32 @@ public class Player {
     public boolean goRight;
     public boolean idle;
     public boolean dead;
+    public boolean facesRight;
 
+    //Player values (speeds)
     private float acceleration;
     private float jumpSpeed;
     private float idleSpeed;
     private float idleAcceleration;
     private float airAcceleration;
 
+    //Player values (measurements)
     public float height;
     public float width;
     public float feetHeight;
 
+    //Player values (areas)
     public Rectangle playerFeet;
     public Rectangle playerBody;
 
-
+    //Player values (Vector 2s)
     public Vector2 position;
     public Vector2 velocity;
     private Vector2 maxVelocity;
 
     public Player(Vector2 logicPos){
         //Boolean
+        facesRight = true;
         dead = false;
         idle = true;
         onGround = false;
@@ -44,19 +49,24 @@ public class Player {
         goRight = false;
         goLeft = false;
 
+        //Player values (speeds)
         idleSpeed = 0.1f;
         acceleration = 1f;
         jumpSpeed = 1f;
         idleAcceleration = 0.08f;
-        position = logicPos;
-        velocity = new Vector2(0,0);
         airAcceleration = 0.5f;
 
-        maxVelocity = new Vector2(0.2f, 0.4f);
+        //Player values (measurements)
         height = 1.5f;
         width = 1;
         feetHeight = 0.2f;
 
+        //Player values (Vector 2s)
+        velocity = new Vector2(0,0);
+        maxVelocity = new Vector2(0.2f, 0.4f);
+        position = logicPos;
+
+        //Player values (areas)
         playerFeet = new Rectangle(position.x, position.y, width, feetHeight);
         playerBody = new Rectangle(position.x, position.y, width, height);
     }
@@ -106,6 +116,7 @@ public class Player {
                     velocity.x = velocity.x +  -airAcceleration * time;
                 }
                 goLeft = false;
+                facesRight = false;
             }
 
             //GO RIGHT
@@ -117,7 +128,10 @@ public class Player {
                     velocity.x = velocity.x +  airAcceleration * time;
                 }
                 goRight = false;
+                facesRight = true;
             }
+
+            System.out.println(facesRight);
 
 
 

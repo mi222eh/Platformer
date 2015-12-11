@@ -39,15 +39,8 @@ public class MapView {
     public void render(SpriteBatch batch){
         drawPlatforms(batch);
         drawSpikes(batch);
+        drawPlayer(batch);
 
-        Vector2 playerPos = camera.getViewPosition(player.getPosition());
-        playerTexture.setSize(player.width * camera.scaleX, player.height * camera.scaleY);
-        playerTexture.setPosition(playerPos.x - camera.displacement, playerPos.y);
-        playerTexture.draw(batch);
-
-        floorTexture.setSize(player.width * camera.scaleX, player.feetHeight * camera.scaleY);
-        floorTexture.setPosition(playerPos.x - camera.displacement, playerPos.y);
-        floorTexture.draw(batch);
 
     }
 
@@ -80,6 +73,23 @@ public class MapView {
             spikeTexture.setPosition(viewPos.x - camera.displacement, viewPos.y);
             spikeTexture.draw(batch);
         }
+    }
+
+    private void drawPlayer(SpriteBatch batch){
+        Vector2 playerPos = camera.getViewPosition(player.getPosition());
+        playerTexture.setSize(player.width * camera.scaleX, player.height * camera.scaleY);
+        playerTexture.setPosition(playerPos.x - camera.displacement, playerPos.y);
+        if(!player.facesRight && !playerTexture.isFlipX()){
+            playerTexture.flip(true, false);
+        }
+        if(player.facesRight && playerTexture.isFlipX()){
+            playerTexture.flip(true, false);
+        }
+        playerTexture.draw(batch);
+
+        floorTexture.setSize(player.width * camera.scaleX, player.feetHeight * camera.scaleY);
+        floorTexture.setPosition(playerPos.x - camera.displacement, playerPos.y);
+        floorTexture.draw(batch);
     }
 
     public boolean doesPlayerWantToMoveLeft(){
