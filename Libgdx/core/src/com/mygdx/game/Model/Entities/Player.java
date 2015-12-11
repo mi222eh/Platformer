@@ -131,8 +131,6 @@ public class Player {
                 facesRight = true;
             }
 
-            System.out.println(facesRight);
-
 
 
             //MAX SPEED
