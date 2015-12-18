@@ -11,14 +11,17 @@ public class Camera {
 
     private float PPM;
 
+    public float PPMX;
+    public float PPMY;
+
     public float scaleX;
     public float scaleY;
 
     public float screenWidth;
     public float screenHeight;
 
-    private float optimizedWidth;
-    private float optimizedHeight;
+    public float optimizedWidth;
+    public float optimizedHeight;
 
     public float displacement;
 
@@ -31,29 +34,32 @@ public class Camera {
         optimizedWidth = 832;
         optimizedHeight = 544;
 
-        scaleX = (Gdx.graphics.getWidth() / optimizedWidth) * PPM;
-        scaleY = (Gdx.graphics.getHeight() / optimizedHeight) * PPM;
+        scaleX = Gdx.graphics.getWidth() / optimizedWidth;
+        scaleY = Gdx.graphics.getHeight() / optimizedHeight;
+
+        PPMX = scaleX * PPM;
+        PPMY = scaleY * PPM;
 
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
     }
 
     public Vector2 getViewPosition(Vector2 logPos){
-        Vector2 viewPos = new Vector2(logPos.x * scaleX,
-                                      logPos.y * scaleY);
+        Vector2 viewPos = new Vector2(logPos.x * PPMX,
+                                      logPos.y * PPMY);
 
         return viewPos;
     }
 
     public Vector2 getLogicPosition(Vector2 viewPos){
-        Vector2 logPos = new Vector2(viewPos.x / scaleX,
-                                    viewPos.y / scaleY);
+        Vector2 logPos = new Vector2(viewPos.x / PPMX,
+                                    viewPos.y / PPMY);
 
         return logPos;
     }
 
     public void setStageWidth(float logicwidth){
-        stageWidth = logicwidth * scaleX;
+        stageWidth = logicwidth * PPMX;
     }
 
 

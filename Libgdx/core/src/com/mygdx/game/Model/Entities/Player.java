@@ -8,7 +8,22 @@ import com.badlogic.gdx.math.Vector2;
  * Created by Hitstorm13 on 2015-12-07.
  */
 public class Player {
+    public float delay;
+    public float delayCollector;
 
+    //<---------------------SWORD--------------------->
+    public float swordWidth;
+    public float swordHeight;
+
+    public boolean attacks;
+    public float attackTime;
+    public float maxAttackTime;
+    public float coolDown;
+
+    public Rectangle swordArea;
+
+
+    //<--------------------PLAYER---------------------->
     //Booleans
     public boolean onGround;
     public boolean jumps;
@@ -39,7 +54,12 @@ public class Player {
     public Vector2 velocity;
     private Vector2 maxVelocity;
 
+
     public Player(Vector2 logicPos){
+        delay = 0.1f;
+        delayCollector = 0f;
+
+        //<------------------Player---------------->
         //Boolean
         facesRight = true;
         dead = false;
@@ -57,8 +77,8 @@ public class Player {
         airAcceleration = 0.5f;
 
         //Player values (measurements)
-        height = 1.5f;
-        width = 1;
+        height = 1f;
+        width = 0.8f;
         feetHeight = 0.2f;
 
         //Player values (Vector 2s)
@@ -69,8 +89,28 @@ public class Player {
         //Player values (areas)
         playerFeet = new Rectangle(position.x, position.y, width, feetHeight);
         playerBody = new Rectangle(position.x, position.y, width, height);
+
+        //<------------------Sword---------------->
+        swordHeight = 1.7f;
+        swordWidth = 1f;
+        attacks = false;
+        coolDown = 0.3f;
+        maxAttackTime = 0.1f;
+        attackTime = coolDown + maxAttackTime;
+
+        swordArea = new Rectangle(position.x + width, position.y + ((height - swordHeight) / 2), swordWidth, swordHeight);
+
     }
     public void step(float time, Vector2 gravity){
+
+        if (!jumps && !goLeft && !goRight){
+            delayCollector += time;
+        }
+        else{
+            delayCollector = 0;
+        }
+        idle = delayCollector >= delay;
+
         if(!dead){
             velocity.x = velocity.x + gravity.x * time;
             velocity.y = velocity.y + gravity.y * time;
@@ -104,31 +144,30 @@ public class Player {
                         }
                     }
                 }
-
             }
 
             //GO LEFT
             if(goLeft){
                 if (onGround){
                     velocity.x = velocity.x +  -acceleration * time;
+                    facesRight = false;
                 }
                 else{
                     velocity.x = velocity.x +  -airAcceleration * time;
                 }
                 goLeft = false;
-                facesRight = false;
             }
 
             //GO RIGHT
             if(goRight){
                 if (onGround){
                     velocity.x = velocity.x +  acceleration * time;
+                    facesRight = true;
                 }
                 else{
                     velocity.x = velocity.x +  airAcceleration * time;
                 }
                 goRight = false;
-                facesRight = true;
             }
 
 
@@ -169,8 +208,28 @@ public class Player {
             playerFeet.setPosition(position.x, position.y);
             playerBody.setPosition(position.x, position.y);
         }
-        idle = true;
 
+        //Handle sword
+        handleSword(time);
+    }
+
+    private void handleSword(float time){
+        if(!facesRight){
+            swordArea.setPosition(position.x - swordWidth, position.y + ((height - swordHeight) / 2));
+        }
+        else{
+            swordArea.setPosition(position.x + width, position.y + ((height - swordHeight) / 2));
+        }
+
+
+
+        attackTime += time;
+        if(attackTime <= maxAttackTime){
+            attacks = true;
+        }
+        else{
+            attacks = false;
+        }
     }
 
     public Vector2 getPosition(){
@@ -187,11 +246,26 @@ public class Player {
         idle = false;
     }
 
-    public void jump(){
+    public boolean jump(){
         if(onGround){
             jumps = true;
-            idle = false;
+            //idle = false;
+            return true;
         }
+        return false;
+    }
+
+    public boolean attack(){
+
+        if(attackTime >= coolDown){
+            attackTime = 0;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isAttacks(){
+        return attacks;
     }
     public void setDead(){
         dead = true;

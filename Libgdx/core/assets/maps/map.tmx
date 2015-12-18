@@ -3,6 +3,19 @@
  <tileset firstgid="1" name="tilesheet" tilewidth="32" tileheight="32" tilecount="4">
   <image source="tilesheet.png" width="64" height="64"/>
  </tileset>
+ <tileset firstgid="5" name="tilesheet2" tilewidth="32" tileheight="32" tilecount="9">
+  <image source="tilesheet2.png" width="96" height="96"/>
+ </tileset>
+ <layer name="cannons" width="100" height="17">
+  <data encoding="base64" compression="zlib">
+   eJzt08ERADAIAjDf7j9wt1CryQRwHBEAAABAhewO0Ohq96u9t7Mr/M+Pd7LrbA/EFwA9
+  </data>
+ </layer>
+ <layer name="enemies" width="100" height="17">
+  <data encoding="base64" compression="zlib">
+   eJzt1FEKABAQBND9c/8b+1VKkWJ57wCanSYRABBRTgcAoPPK3/zKHfzDZsf0s053rLAbbpZ1n1lztzLdsCvr7DuZOvpFBeqyAFw=
+  </data>
+ </layer>
  <layer name="platforms" width="100" height="17">
   <data encoding="base64" compression="zlib">
    eJztlMEKQCEIBOv/f7rLO0nCI0NmYwe8Zu2kY5gK8yvDwl6Y2AsTe2FiL0zshYm9MHnFywylzivvUMce/hHn73Zmyh5OcyHutO67EDMgoJjHicuK/91OUtpL8c6ehRzFTFRddvzDbHZv9OzeQ9kZleruuQAtuQCF
@@ -13,9 +26,9 @@
    eJztzcEJAAAIAzFx/6HdQcWPCfTbiwAAAAAAAPglB+t8bfQ3XTcLcxgAXw==
   </data>
  </layer>
- <objectgroup name="player">
-  <object id="1" x="69" y="459">
-   <ellipse/>
-  </object>
- </objectgroup>
+ <layer name="player" width="100" height="17">
+  <data encoding="base64" compression="zlib">
+   eJztwTENAAAAAiA3+3c2hR/QAAAAAAAAwM8AakAABA==
+  </data>
+ </layer>
 </map>

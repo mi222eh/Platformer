@@ -20,20 +20,13 @@ public class Platform{
 
     public boolean isColliding(Player player){
         if(player.velocity.y <= 0){
-            /*
-            if (player.position.y >= this.position.y + height - collisionHeight && player.position.y <= this.position.y + height){
-                if(player.position.x >= this.position.x && player.position.x <= this.position.x + width){
-                    return true;
-                }
-
-                else if (player.position.x + player.width >= this.position.x && player.position.x <= this.position.x + width){
-                    return true;
-                }
-            }
-            */
             return collisionArea.overlaps(player.playerFeet);
         }
         return false;
+    }
+
+    public boolean isOverlapping(Rectangle object){
+        return collisionArea.overlaps(object);
     }
 
 
