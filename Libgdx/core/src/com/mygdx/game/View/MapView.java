@@ -2,6 +2,8 @@ package com.mygdx.game.View;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,6 +13,7 @@ import com.mygdx.game.Model.Entities.*;
 import com.mygdx.game.Model.Map;
 import com.mygdx.game.View.EntityView.CannonView.CannonView;
 import com.mygdx.game.View.EntityView.EnemyView.RunningEnemyView;
+import com.mygdx.game.View.EntityView.Goal.GoalView;
 import com.mygdx.game.View.EntityView.PlayerView.PlayerView;
 
 /**
@@ -24,10 +27,13 @@ public class MapView {
     Array<Platform> platforms;
     Array<Spike> spikes;
     Camera camera;
+    GoalView goalView;
+    ControllerAdapter controllerAdapter;
 
-    Sprite platFormTexture, platformBackgroundTexture, spikesTexture;
+    Sprite platFormTexture, platformBackgroundTexture, spikesTexture, backGround;
 
     public MapView(Map map, Camera camera){
+        controllerAdapter = new ControllerAdapter();
         this.map = map;
         this.platforms = map.getPlatforms();
         this.spikes = map.getSpikes();
@@ -38,14 +44,18 @@ public class MapView {
         platFormTexture = new Sprite(new Texture(Gdx.files.internal("Textures/Platform.png")));
         platformBackgroundTexture = new Sprite(new Texture(Gdx.files.internal("Textures/PlatformBackGround.png")));
         spikesTexture = new Sprite(new Texture(Gdx.files.internal("Textures/Spikes.png")));
+        this.goalView = new GoalView(camera, map.getGoal());
+        backGround = new Sprite(new Texture(Gdx.files.internal("Textures/Background.png")));
     }
 
     public void render(SpriteBatch batch, float time){
+        drawBackground(batch);
         drawPlatforms(batch);
         drawSpikes(batch);
-        playerView.draw(batch, time);
-        runningEnemyView.draw(batch, time);
+        playerView.draw(batch, time, map.isPaused());
+        runningEnemyView.draw(batch, time, map.isPaused());
         cannonView.draw(batch);
+        goalView.render(batch, time);
     }
 
     private void drawPlatforms(SpriteBatch batch){
@@ -55,14 +65,15 @@ public class MapView {
             float width = platform.width * camera.PPMX;
             float height = platform.height * camera.PPMY;
             Vector2 viewPos = camera.getViewPosition(platform.position);
-
-            platformBackgroundTexture.setSize(width, height);
-            platformBackgroundTexture.setPosition(viewPos.x - camera.displacement, viewPos.y);
-            platformBackgroundTexture.draw(batch);
-            float collHeight = platform.collisionHeight * camera.PPMY;
-            platFormTexture.setSize(width, collHeight);
-            platFormTexture.setPosition(viewPos.x - camera.displacement, viewPos.y + height - collHeight);
-            platFormTexture.draw(batch);
+            if (viewPos.x + width > camera.displacement && viewPos.x < camera.displacement + camera.screenWidth){
+                platformBackgroundTexture.setSize(width, height);
+                platformBackgroundTexture.setPosition(viewPos.x - camera.displacement, viewPos.y);
+                platformBackgroundTexture.draw(batch);
+                float collHeight = platform.collisionHeight * camera.PPMY;
+                platFormTexture.setSize(width, collHeight);
+                platFormTexture.setPosition(viewPos.x - camera.displacement, viewPos.y + height - collHeight);
+                platFormTexture.draw(batch);
+            }
         }
     }
 
@@ -72,11 +83,18 @@ public class MapView {
             float width = Spike.width * camera.PPMX;
             float height = Spike.height * camera.PPMY;
             Vector2 viewPos = camera.getViewPosition(spike.position);
+            if (viewPos.x + width > camera.displacement && viewPos.x < camera.displacement + camera.screenWidth){
+                spikesTexture.setSize(width, height);
+                spikesTexture.setPosition(viewPos.x - camera.displacement, viewPos.y);
+                spikesTexture.draw(batch);
+            }
 
-            spikesTexture.setSize(width, height);
-            spikesTexture.setPosition(viewPos.x - camera.displacement, viewPos.y);
-            spikesTexture.draw(batch);
         }
+    }
+
+    private void drawBackground(SpriteBatch batch){
+        backGround.setPosition(0 - camera.displacement * 0.10f, 0);
+        backGround.draw(batch);
     }
 
     public boolean doesPlayerWantToMoveLeft(){
@@ -99,5 +117,9 @@ public class MapView {
         playerView.dispose();
         runningEnemyView.dispose();
         cannonView.dispose();
+    }
+
+    public boolean doesPlayerWantToPause() {
+        return Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE);
     }
 }

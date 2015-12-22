@@ -42,10 +42,10 @@ public class RunningEnemyView {
         runningEnemyInAirTexture = new Sprite(new Texture(Gdx.files.internal("Textures/EnemyInAir.png")));
     }
 
-    public void draw(SpriteBatch batch, float time){
+    public void draw(SpriteBatch batch, float time, boolean isPaused){
         for (EnemyState enemyState :
                 enemyStates) {
-            enemyState.Update(time);
+            enemyState.Update(time, isPaused);
             if (!enemyState.runningEnemy.dead){
                 if(enemyState.onGround){
                     drawWalkingEnemy(batch, enemyState);

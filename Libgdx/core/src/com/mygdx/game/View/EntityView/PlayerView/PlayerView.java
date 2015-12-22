@@ -76,11 +76,11 @@ public class PlayerView {
         playerJumpTexture = new Sprite(new Texture(Gdx.files.internal("Textures/PlayerJump.png")));
     }
 
-    public void draw(SpriteBatch batch, float time){
+    public void draw(SpriteBatch batch, float time, boolean isPaused){
         updateState();
         if(!player.dead){
             if (playerIsStanding){
-                drawStandingPlayer(batch, time);
+                drawStandingPlayer(batch, time, isPaused);
             }
             else if(playerIsJumping){
                 drawPlayerJumping(batch);
@@ -91,7 +91,7 @@ public class PlayerView {
             }
 
             else if(playerIsWalking){
-                drawWalkingPlayer(batch, time);
+                drawWalkingPlayer(batch, time, isPaused);
             }
             if(playerIsAttacking){
                 drawSwordSlash(batch);
@@ -146,15 +146,19 @@ public class PlayerView {
         batch.draw(texture, visualPos.x - camera.displacement, visualPos.y, width, height);
     }
 
-    private void drawWalkingPlayer(SpriteBatch batch, float time){
-        stateTime += time;
+    private void drawWalkingPlayer(SpriteBatch batch, float time, boolean isPaused){
+        if (!isPaused){
+            stateTime += time;
+        }
         float percent = stateTime / walkTime;
         TextureRegion currentFrame = flipFrame(getCurrentFrame(percent, playerWalkFrames, walkTime));
         draw(player.width, player.height, player.position, currentFrame, batch);
     }
 
-    private void drawStandingPlayer(SpriteBatch batch, float time){
-        stateTime += time;
+    private void drawStandingPlayer(SpriteBatch batch, float time, boolean isPaused){
+        if (!isPaused){
+            stateTime += time;
+        }
         float percent = stateTime / standTime;
         TextureRegion currentFrame = flipFrame(getCurrentFrame(percent, playerStandFrames, standTime));
         draw(player.width, player.height, player.position, currentFrame, batch);

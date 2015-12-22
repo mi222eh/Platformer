@@ -31,11 +31,11 @@ public class SmokeSystem {
         _acceleration = new Vector2(0, 1);
         _smokeTime = 0;
         _canAddNewSmoke = true;
-        _maxTimeToLive = 3;
+        _maxTimeToLive = 4;
         _minSize = 1f;
-        _maxSize = 2f;
+        _maxSize = 4f;
         _smokeParticles = new Array<SmokeParticle>();
-        _numberOfSmokeParticles = 20;
+        _numberOfSmokeParticles = 5;
         _newSmokeTime = _maxTimeToLive / _numberOfSmokeParticles;
         _smokePosition = pos;
 

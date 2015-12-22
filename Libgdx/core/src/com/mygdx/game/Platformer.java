@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.Controller.MainGameController;
 import com.mygdx.game.Controller.MainMenuController;
 import com.mygdx.game.View.Camera;
 

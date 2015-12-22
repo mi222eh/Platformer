@@ -23,8 +23,10 @@ public class EnemyState {
         stateTime = 0;
     }
 
-    public void Update(float time) {
-        stateTime += time;
+    public void Update(float time, boolean isPaused) {
+        if (!isPaused){
+            stateTime += time;
+        }
         if (runningEnemy.onGround){
             if (inAir){
                 resetTime();

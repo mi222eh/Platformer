@@ -76,7 +76,7 @@ public class SmokeParticle {
     }
 
     private Vector2 getRandomVelocity(){
-        return new Vector2(((float) Math.random() * 0.2f - 0.1f), ((float) Math.random() * 0.2f - 0.1f));
+        return new Vector2(((float) Math.random() * 0.4f - 0.2f), ((float) Math.random() * 0.4f - 0.2f));
     }
 
     private static float getRandomRotationSpeed(){

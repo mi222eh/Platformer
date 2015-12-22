@@ -28,7 +28,7 @@ public class ParticleHandler {
 
     public ParticleHandler(Camera camera){
         _shockwave = new Sprite(new Texture(Gdx.files.internal("shockwave.png")));
-        _smoke = new Sprite(new Texture(Gdx.files.internal("particlesmoke.bmp")));
+        _smoke = new Sprite(new Texture(Gdx.files.internal("Textures/smoke_particle.png")));
         greenShockWave = new Sprite(new Texture(Gdx.files.internal("Textures/GreenShockWave.png")));
         yellowShockWave = new Sprite(new Texture(Gdx.files.internal("Textures/YellowShockWave.png")));
         loadExplosion();
@@ -84,10 +84,10 @@ public class ParticleHandler {
     }
     private void loadExplosion() {
         int _FRAME_COLS = 4;
-        int _FRAME_ROWS = 6;
-        int _UNUSED_ROWS = 2;
+        int _FRAME_ROWS = 4;
+        int _UNUSED_ROWS = 0;
 
-        Texture explosionTexture = new Texture("explosion.png");
+        Texture explosionTexture = new Texture("Textures/explosion.png");
         TextureRegion[][] tmp = TextureRegion.split(explosionTexture, explosionTexture.getWidth() / _FRAME_COLS, (explosionTexture.getHeight() / (_FRAME_ROWS + _UNUSED_ROWS)));
         _explosionFrames = new TextureRegion[_FRAME_COLS * _FRAME_ROWS];
         int index = 0;

@@ -14,12 +14,20 @@ import com.mygdx.game.Platformer;
 import com.mygdx.game.View.Camera;
 import com.mygdx.game.View.MapView;
 import com.mygdx.game.View.Menu.Button;
+import com.mygdx.game.View.Menu.DeadMenu;
+import com.mygdx.game.View.Menu.PauseMenu;
 
 /**
  * Created by Hitstorm13 on 2015-12-07.
  */
 public class MainGameController implements Screen{
+
+    DeadMenu deadMenu;
+    PauseMenu pauseMenu;
+
     private boolean retry;
+    private boolean goToMainMenu;
+
     private float stepTime;
     private float accumulatedTime;
     private Platformer game;
@@ -28,7 +36,6 @@ public class MainGameController implements Screen{
     private TmxMapLoader mapLoader;
     Camera camera;
     ParticleController particleController;
-    Button retryButton;
 
     private int currentLevel;
 
@@ -42,15 +49,17 @@ public class MainGameController implements Screen{
 
     @Override
     public void show() {
+        goToMainMenu = false;
         retry = false;
         particleController = new ParticleController(camera);
         mapLoader = new TmxMapLoader();
         TiledMap tiledMap = mapLoader.load("maps/map" + currentLevel + ".tmx");
-        map = new Map(tiledMap, camera, particleController);
+        map = new Map(tiledMap, particleController);
         mapView = new MapView(map, camera);
         camera.setStageWidth(map.width);
 
-        retryButton = new Button(300 * camera.scaleX, 100 * camera.scaleY, new Vector2(camera.screenWidth / 2, camera.screenHeight / 2), new Sprite(new Texture(Gdx.files.internal("Textures/RetryButton.png"))), Input.Keys.ENTER);
+        deadMenu = new DeadMenu(camera);
+        pauseMenu = new PauseMenu(camera);
     }
 
     @Override
@@ -67,19 +76,30 @@ public class MainGameController implements Screen{
             particleController.step(stepTime);
 
         }
-
         camera.update(map.getPlayer());
+
         game.batch.begin();
         mapView.render(game.batch, delta);
         particleController.render(game.batch);
+
         if (map.isPlayerDead()){
-            retryButton.render(game.batch);
+            deadMenu.render(game.batch);
         }
+
+        if (map.isPaused()){
+            pauseMenu.render(game.batch);
+        }
+
         game.batch.end();
 
         if (retry){
             dispose();
             game.setScreen(new MainGameController(game, camera, currentLevel));
+        }
+
+        if (goToMainMenu){
+            dispose();
+            game.setScreen(new MainMenuController(game, camera));
         }
     }
 
@@ -99,10 +119,34 @@ public class MainGameController implements Screen{
         if(mapView.doesPlayerWantToAttack()){
             map.playerAttack();
         }
-        if (retryButton.handleButton(camera) && map.isPlayerDead()){
+        if (mapView.doesPlayerWantToPause() && !map.isPlayerWon()){
+            map.togglePause();
+        }
+        if (map.isPlayerDead()){
+            handleDeadMenu();
+        }
+        if (map.isPaused()){
+            handlePauseMenu();
+        }
+    }
+
+    private void handlePauseMenu() {
+        if (pauseMenu.doesUserWantTOGoToMainMenu()){
+            goToMainMenu = true;
+            dispose();
+        }
+        if (pauseMenu.doesUserWantToResume()){
+            map.togglePause();
+        }
+    }
+
+    private void handleDeadMenu(){
+        if (deadMenu.doesUserWantToGoToMainMenu()){
+            goToMainMenu = true;
+        }
+        if (deadMenu.doesUserWantToRetry()){
             retry = true;
         }
-
     }
 
     @Override
@@ -129,5 +173,6 @@ public class MainGameController implements Screen{
     public void dispose() {
         mapView.dispose();
         particleController.dispose();
+        deadMenu.dispose();
     }
 }

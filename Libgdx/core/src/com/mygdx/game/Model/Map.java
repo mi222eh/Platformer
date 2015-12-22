@@ -1,20 +1,19 @@
 package com.mygdx.game.Model;
 
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Model.Entities.*;
 import com.mygdx.game.Model.Interface.ParticleObserver;
-import com.mygdx.game.View.Camera;
 
 /**
  * Created by Hitstorm13 on 2015-12-07.
  */
 public class Map {
+
+    private boolean playerWon;
+    private boolean isPaused;
 
     //Observer
     ParticleObserver particleObserver;
@@ -36,17 +35,20 @@ public class Map {
     private Array<Spike> spikes;
     private Array<RunningEnemy> runningEnemies;
     private Array<Cannon> cannons;
+    private Goal goal;
 
 
     public float width;
 
-    public Map(TiledMap tiledMap, Camera camera, ParticleObserver particleObserver){
+    public Map(TiledMap tiledMap, ParticleObserver particleObserver){
+        playerWon = false;
         this.particleObserver = particleObserver;
         loadPlatforms(tiledMap);
         loadSpikes(tiledMap);
-        loadPlayer(tiledMap, camera);
+        loadPlayer(tiledMap);
         loadEnemies(tiledMap);
         loadCannons(tiledMap);
+        loadGoal(tiledMap);
         gravity = new Vector2(0, -2f);
     }
 
@@ -61,7 +63,18 @@ public class Map {
                 }
             }
         }
+    }
 
+    private void loadGoal(TiledMap tiledMap){
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("goal");
+        for (int y = 0; y < layer.getHeight(); y++ ) {
+            for (int x = 0; x < layer.getWidth(); x++) {
+                if (layer.getCell(x, y) != null) {
+                    Vector2 pos = new Vector2(x, y);
+                    goal = new Goal(pos);
+                }
+            }
+        }
     }
 
     private void loadPlatforms(TiledMap tiledMap){
@@ -107,7 +120,7 @@ public class Map {
         }
     }
 
-    private void loadPlayer(TiledMap tiledMap, Camera camera){
+    private void loadPlayer(TiledMap tiledMap){
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get("player");
 
         for (int y = 0; y < layer.getHeight(); y++ ) {
@@ -120,17 +133,39 @@ public class Map {
         }
     }
 
+    public boolean isPaused(){
+        return isPaused;
+    }
+
+    public void togglePause(){
+        isPaused = !isPaused;
+    }
+
     public void step(float time){
-        if(!player.dead){
+        if(!player.dead && !isPlayerWon() && !isPaused) {
             handleControls();
         }
-        handlePlayer(time);
-        handleSword();
-        handlePlatforms(time);
-        handleSpikes();
-        handleRunningEnemies(time);
-        handleCannons(time);
+        else{
+            playerMoveLeft = false;
+            playerMoveRight = false;
+            playerJump = false;
+            playerAttacks = false;
+        }
+        if (!isPaused){
+            handlePlayer(time);
+            handleSword();
+            handlePlatforms(time);
+            handleSpikes();
+            handleRunningEnemies(time);
+            handleCannons(time);
+            handleGoal();
+        }
+    }
 
+    private void handleGoal(){
+        if (goal.isColliding(player.playerBody) && !player.dead){
+            playerWon = true;
+        }
     }
     
     private void handleCannons(float time){
@@ -140,7 +175,7 @@ public class Map {
             if(cannon.step(time)){
                 particleObserver.shootSound();
             }
-            if (cannon.hits(player) && !player.dead){
+            if (cannon.hits(player) && !player.dead && !isPlayerWon()){
                 player.setDead();
                 particleObserver.deadSound();
                 particleObserver.addDeathWave(new Vector2(player.position.x + player.width / 2, player.position.y + player.height / 2));
@@ -190,7 +225,7 @@ public class Map {
                     cannons) {
                 for (CannonBullet bullet :
                         cannon.cannonBullets) {
-                    if (bullet.isHit(player.swordArea)){
+                    if (bullet.isHit(player.swordArea) && bullet.active){
                         particleObserver.killSound();
                         particleObserver.addBulletDeflectWave(new Vector2(bullet.position.x + CannonBullet.width / 2, bullet.position.y + CannonBullet.height / 2));
                     }
@@ -228,7 +263,7 @@ public class Map {
                     runningEnemy.onGround = true;
                     runningEnemy.position.y = platform.position.y + Platform.height - 0.001f; //Minus a small value (so it's still on ground)
                 }
-                if(runningEnemy.doesHit(player) && !runningEnemy.dead && !player.dead){
+                if(runningEnemy.doesHit(player) && !runningEnemy.dead && !player.dead && !isPlayerWon()){
                     player.setDead();
                     particleObserver.deadSound();
                     particleObserver.addDeathWave(new Vector2(player.position.x + player.width / 2, player.position.y + player.height / 2));
@@ -242,7 +277,7 @@ public class Map {
     private void handleSpikes(){
         for (Spike spike :
                 spikes) {
-            if (spike.isColliding(player) && !player.dead) {
+            if (spike.isColliding(player) && !player.dead && !isPlayerWon() && !isPlayerWon()) {
                 player.setDead();
                 particleObserver.deadSound();
                 particleObserver.addDeathWave(new Vector2(player.position.x + player.width / 2, player.position.y + player.height / 2));
@@ -298,5 +333,13 @@ public class Map {
 
     public boolean isPlayerDead(){
         return player.dead;
+    }
+
+    public Goal getGoal() {
+        return goal;
+    }
+
+    public boolean isPlayerWon() {
+        return playerWon;
     }
 }

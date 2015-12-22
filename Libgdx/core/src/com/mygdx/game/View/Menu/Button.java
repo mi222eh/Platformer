@@ -32,8 +32,8 @@ public class Button {
     }
 
     public boolean handleButton(Camera camera){
-        mouseX = Gdx.input.getX();
-        mouseY = camera.screenHeight - Gdx.input.getY();
+        mouseX = (Gdx.input.getX() * camera.optimizedWidth) / Gdx.graphics.getWidth();
+        mouseY = camera.optimizedHeight - (Gdx.input.getY() * camera.optimizedHeight / Gdx.graphics.getHeight());
 
         if (Gdx.input.isKeyJustPressed(shortKey)){
             return true;
@@ -64,4 +64,5 @@ public class Button {
     public void dispose(){
         button.getTexture().dispose();
     }
+
 }

@@ -5,9 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.mygdx.game.Platformer;
 import com.mygdx.game.View.Camera;
-import com.mygdx.game.View.InstructionsMenu;
-import com.mygdx.game.View.LevelMenu;
-import com.mygdx.game.View.MainMenu;
+import com.mygdx.game.View.Menu.InstructionsMenu;
+import com.mygdx.game.View.Menu.LevelMenu;
+import com.mygdx.game.View.Menu.MainMenu;
 
 /**
  * Created by Hitstorm13 on 2015-12-17.
@@ -39,6 +39,7 @@ public class MainMenuController implements Screen {
 
     @Override
     public void render(float delta) {
+
         Gdx.gl.glClearColor( 0.7f, 0.7f, 0.7f, 1 );
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 

@@ -1,7 +1,5 @@
 package com.mygdx.game.View.Particles.Explosion.Explosion;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -13,8 +11,7 @@ import com.mygdx.game.View.Camera;
 public class ExplosionSystem {
 
     private static final int _FRAME_COLS = 4;
-    private static final int _FRAME_ROWS = 6;
-    private static final int _UNUSED_ROWS = 2;
+    private static final int _FRAME_ROWS = 4;
 
     TextureRegion[] _explosionFrames;
     float _explosionTime;

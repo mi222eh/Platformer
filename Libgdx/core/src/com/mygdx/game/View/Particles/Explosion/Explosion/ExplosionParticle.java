@@ -11,7 +11,7 @@ public class ExplosionParticle {
     public Vector2 _position;
     public ExplosionParticle(Vector2 position){
         _timeLived = 0;
-        _size = 3f;
+        _size = 2f;
         _position = position;
     }
 

@@ -3,14 +3,14 @@
  <tileset firstgid="1" name="tilesheet2" tilewidth="32" tileheight="32" tilecount="9">
   <image source="tilesheet2.png" width="96" height="96"/>
  </tileset>
- <layer name="spikes" width="200" height="17">
-  <data encoding="base64" compression="zlib">
-   eJztwzENAAAMA6C+9W+4PjZISAAAAAAAAAAAAAAAALim+uQA3Y8GlA==
-  </data>
- </layer>
  <layer name="player" width="200" height="17">
   <data encoding="base64" compression="zlib">
    eJztzjENAAAIA7Ad+NeMi5GQVkETAAAAAAAAAAAAAKBlrgMAAM8sWqAABQ==
+  </data>
+ </layer>
+ <layer name="spikes" width="200" height="17">
+  <data encoding="base64" compression="zlib">
+   eJztwzENAAAMA6C+9W+4PjZISAAAAAAAAAAAAAAAALim+uQA3Y8GlA==
   </data>
  </layer>
  <layer name="platforms" width="200" height="17">
@@ -30,7 +30,7 @@
  </layer>
  <layer name="goal" width="200" height="17">
   <data encoding="base64" compression="zlib">
-   eJztziEBAAAIA7Ab+lcmxAWCLcESAAAAAAAAAPhrrgMAAAAAAFQWoqgABg==
+   eJztzkEJAAAIBLD72L+yKQ5BtgRLAAAAAAAAgM/mOgAAAAAAAFC0slwABg==
   </data>
  </layer>
 </map>

@@ -29,7 +29,7 @@ public class CombinedExplosionSystem {
     public CombinedExplosionSystem(Sprite smoke, TextureRegion[] explosionFrames, Vector2 position, Camera camera, Sprite shockwave){
         Explosion = new ExplosionSystem(_explosionFrames, position);
         Smoke = new SmokeSystem(position);
-        ShockwaveSystem = new ShockwaveSystem(position, 0.2f, 1f);
+        ShockwaveSystem = new ShockwaveSystem(position, 0.2f, 5f);
         _smoke = smoke;
         _explosionFrames = explosionFrames;
         _shockwave = shockwave;
