@@ -16,4 +16,6 @@ public interface ParticleObserver {
     void addDeathWave(Vector2 logicPos);
     void addSlashWave(Vector2 logicPos);
     void addBulletDeflectWave(Vector2 logicPos);
+    void addBloodWave(Vector2 logicPos);
+    void addWinSound();
 }

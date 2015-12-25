@@ -66,7 +66,7 @@ public class MainMenuController implements Screen {
 
         if (mainMenu.doesUserChangeSoundSettings()){
             Platformer.sound = !Platformer.sound;
-            System.out.println(Platformer.sound);
+
         }
 
         if (mainMenu.doesUserWantToSeeInstructions()){
@@ -97,6 +97,12 @@ public class MainMenuController implements Screen {
         if (levelMenu.doesUserWantToGoLevel1()){
             game.setScreen(new MainGameController(game, camera, 1));
             dispose();
+        }
+        if (levelMenu.doesUserWantoToGoLevel2()){
+            game.setScreen(new MainGameController(game, camera, 2));
+        }
+        if (levelMenu.doesUuserWantToGoLevel3()){
+            game.setScreen(new MainGameController(game, camera, 3));
         }
     }
 

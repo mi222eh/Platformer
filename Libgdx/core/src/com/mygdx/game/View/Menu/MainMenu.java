@@ -39,7 +39,7 @@ public class MainMenu {
         //QUIT BUTTON
         QuitButton = new Button(buttonWidth,
                 buttonHeight,
-                new Vector2(camera.screenWidth / 2,  buttonHeight / 2 + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
+                new Vector2(camera.screenWidth / 2,  buttonHeight / 2 + spaceBetween + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/QuitButton.png"))),
                 28456238);
         buttonNumber++;
@@ -47,13 +47,13 @@ public class MainMenu {
         //SOUND BUTTONS
         SoundOffButton = new Button(buttonWidth,
                 buttonHeight,
-                new Vector2(camera.screenWidth / 2,  buttonHeight / 2 + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
+                new Vector2(camera.screenWidth / 2,  buttonHeight / 2 + spaceBetween + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/SoundOnButton.png"))),
                 28456238);
         SoundOnButton = new Button(buttonWidth,
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2,
-                        buttonHeight / 2 + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
+                        buttonHeight / 2 + spaceBetween + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/SoundOffButton.png"))),
                 28456238);
         buttonNumber++;
@@ -62,14 +62,14 @@ public class MainMenu {
         InstructionsButton = new Button(buttonWidth,
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2,
-                        buttonHeight / 2 + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
+                        buttonHeight / 2 + spaceBetween + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/InstructionsButton.png"))),
                 28456238);
         buttonNumber++;
         PlayButton = new Button(buttonWidth,
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2,
-                        buttonHeight / 2 + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
+                        buttonHeight / 2 + spaceBetween + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/PlayButton.png"))),
                 28456238);
     }

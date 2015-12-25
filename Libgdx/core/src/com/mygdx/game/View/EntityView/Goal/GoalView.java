@@ -1,48 +1,74 @@
 package com.mygdx.game.View.EntityView.Goal;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Model.Entities.Goal;
 import com.mygdx.game.View.Camera;
+import com.mygdx.game.View.Tools;
 
 /**
  * Created by Michael on 2015-12-20.
  */
 public class GoalView {
+    float acceleration;
+    Vector2 velocity;
+    Vector2 position;
     Camera camera;
     float stateTime;
-    float rotation;
+    float wonTime;
     float rotationSpeed;
+    float animationSpeed;
     Goal goal;
-    Sprite goalTexture;
+    TextureRegion[] goalFrames, goalBoardFrames;
 
     public GoalView(Camera camera, Goal goal){
+        acceleration = 3f;
+        velocity = new Vector2(0, -3f);
+        wonTime = 0;
+        animationSpeed = 0.2f;
         this.goal = goal;
-        rotation = 0;
+        this.position = goal.position;
         rotationSpeed = 360;
         stateTime = 0;
         this.camera = camera;
-        goalTexture = new Sprite(new Texture(Gdx.files.internal("Textures/Goal.png")));
+        goalFrames = Tools.loadFrames("Textures/Goal.png", 2, 1);
+        goalBoardFrames = Tools.loadFrames("Textures/GoalBoarded.png", 2, 1);
     }
 
-    public void render(SpriteBatch batch, float time){
+    public void render(SpriteBatch batch, float time, boolean hasWon){
         stateTime += time;
-        rotation = rotation - rotationSpeed * time;
-        if (rotation < 0){
-            rotation = rotation + 360;
+        float percentDone = stateTime / animationSpeed;
+        int frame = (int)(percentDone * goalFrames.length);
+        while(frame >= goalFrames.length){
+            frame -= goalFrames.length;
         }
-        float width = goal.width * camera.PPMX;
-        float height = goal.height * camera.PPMY;
-        Vector2 viewPos = camera.getViewPosition(goal.position);
 
-        goalTexture.setSize(width, height);
-        goalTexture.setPosition(viewPos.x - camera.displacement, viewPos.y);
-        goalTexture.setOrigin(goalTexture.getWidth() / 2, goalTexture.getHeight() / 2);
+        if (!hasWon){
+            TextureRegion currentFrame = goalFrames[frame];
+            Vector2 viewPos = camera.getViewPosition(goal.position);
+            float width = goal.width * camera.PPMX;
+            float height = goal.height * camera.PPMY;
 
-        goalTexture.setRotation(rotation);
-        goalTexture.draw(batch);
+            float addY = (float)Math.sin(stateTime) * 3 - 1.5f;
+
+            batch.draw(currentFrame, viewPos.x - camera.displacement, viewPos.y + addY, width, height);
+        }
+        else{
+            TextureRegion currentFrame = goalBoardFrames[frame];
+            velocity.y = velocity.y + acceleration * time;
+            position.y = position.y + velocity.y * time;
+
+            Vector2 viewPos = camera.getViewPosition(position);
+            float width = goal.width * camera.PPMX;
+            float height = goal.height * camera.PPMY;
+
+            batch.draw(currentFrame, viewPos.x - camera.displacement, viewPos.y, width, height);
+
+        }
+    }
+
+    public void dispose(){
+        Tools.disposeTextures(goalFrames);
     }
 }

@@ -23,7 +23,7 @@ public class PauseMenu {
         float buttonWidth = camera.screenWidth * 0.4f;
         float buttonHeight = camera.screenHeight * 0.15f;
         int buttonNr = 1;
-        float spaceBetween = 20;
+        float spaceBetween = 10 * camera.scaleY;
 
         MainMenu = new Button(buttonWidth,
                 buttonHeight,

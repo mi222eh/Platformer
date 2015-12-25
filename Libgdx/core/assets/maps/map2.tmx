@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="296" height="17" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="tilesheet2" tilewidth="32" tileheight="32" tilecount="9">
+  <image source="tilesheet2.png" width="96" height="96"/>
+ </tileset>
+ <layer name="player" width="296" height="17">
+  <data encoding="base64" compression="zlib">
+   eJztzjENAAAIA7Ad+NeMjJHQKmgCAAAAAAAAAAAAAMAX0w4AAAAAAAAAAKct0BAABQ==
+  </data>
+ </layer>
+ <layer name="platforms" width="296" height="17">
+  <data encoding="base64" compression="zlib">
+   eJzt2FEOgyAMAFC9/6X3sfixZRRBnNC8l5jphkmBtsZtGwAAAAAAAADcbw8OgLvoPaymJ1dnyO+9cF67/o63Vq+1uc2wFlEsT8c0i2gtSvtey4Ur17Wxpe/oN7ou1Nr8op5ovzhL3vQbvW49dZy9/s/0uWi+2deHTyP3Ws4Ah1V6QfZnXtZ5tRr9/mddGWn1fIpiv7PmVl0vOMhjeGt9hqidufXuU3Tflf8zs8g8t8xqvWvkZ+n8O44orpY5lH5vvT8a8++cf6LGaj3v15inD5jFC0HKAVE=
+  </data>
+ </layer>
+ <layer name="spikes" width="296" height="17">
+  <data encoding="base64" compression="zlib">
+   eJzt0LEKACAIBUDX/v+HWxozakgc7uANqfCgCAAAAAAAAAAAAAAAAAAAAAAAADoYK9k82+/uXjt/pbov6zy9O6j4F5GbTJZtB9g=
+  </data>
+ </layer>
+ <layer name="enemies" width="296" height="17">
+  <data encoding="base64" compression="zlib">
+   eJzt19EJwCAMBUBx/6G7QMHWaknM3a8o+hIRWwMAAAAAAABgh/5xPKKMe45AbrWoN5V64M1ZK+UyQz6xqMczcgLgDxnfm4x7BgAAOJ2/GpzNHR+TEbus6q3Zde7m6XcAgDUuNnMAKQ==
+  </data>
+ </layer>
+ <layer name="goal" width="296" height="17">
+  <data encoding="base64" compression="zlib">
+   eJztzgEJAAAIA7CD/Tsb44JbgiUAAAAAAAAAAAD3TDsAAAAAAAAAAAAA8NACy+wABA==
+  </data>
+ </layer>
+ <layer name="cannons" width="296" height="17">
+  <data encoding="base64" compression="zlib">
+   eJztwQEBAAAAgJD+r+4ICgAAAAAAAAAAAAAAAAAAAAAAAABqTqAAAQ==
+  </data>
+ </layer>
+</map>

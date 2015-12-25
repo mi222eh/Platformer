@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-up" width="200" height="17" tilewidth="32" tileheight="32" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="296" height="17" tilewidth="32" tileheight="32" nextobjectid="1">
  <tileset firstgid="1" name="tilesheet2" tilewidth="32" tileheight="32" tilecount="9">
   <image source="tilesheet2.png" width="96" height="96"/>
  </tileset>
- <layer name="player" width="200" height="17">
+ <layer name="player" width="296" height="17">
   <data encoding="base64" compression="zlib">
-   eJztzjENAAAIA7Ad+NeMi5GQVkETAAAAAAAAAAAAAKBlrgMAAM8sWqAABQ==
+   eJztzjENAAAIA7Ad+NeMjAXSKmgCAAAAAAAAAAAAAAAAAABcMe0AAAAAAK8tmKAABQ==
   </data>
  </layer>
- <layer name="spikes" width="200" height="17">
+ <layer name="cannons" width="296" height="17">
   <data encoding="base64" compression="zlib">
-   eJztwzENAAAMA6C+9W+4PjZISAAAAAAAAAAAAAAAALim+uQA3Y8GlA==
+   eJztwQEBAAAAgJD+r+4ICgAAAAAAAAAAAAAAAAAAAAAAAABqTqAAAQ==
   </data>
  </layer>
- <layer name="platforms" width="200" height="17">
+ <layer name="platforms" width="296" height="17">
   <data encoding="base64" compression="zlib">
-   eJzt2EEOgCAMRFG5/6VduDGGiFBKp/hf4hKpUCh4HAAAwKJUHgAAavWhp05QWwAtlvX85T0z1jrn0jw85h91jG2cP+V2tjWtHh8uivkUFZPX2anWB9aLznPv/TtbjbhrxZr1u5Tx76jN807d0z9glbk+PHnH3lr3b+PX07YMtlk1f6N9WmLcJUcjMF45qczZrD1GrdZE978ja23qbaOUT9kxjjqYixjsJ3Oo3VkAJSeD4gDq
+   eJzt2e0KwkAMRNH2/V9a+ksorWa/Z7L3gKggOk036arHAQAAdnc+3ABgNmYR4GGH/mQWAV7uvZqtd5lHgJ9/Pfv03afmtjpnbzOPfaUMx4Avl/WqlOUXxZxqeXpSrDf24bL+VHMqZqqlWuNMInuTEfsY1X3RG4eMF+WctbkU9tPKdc1mxIzJxG12XtRzKme7U69lRqN7zamXM1lV85L9jPKaYM2Op/abcuRzW/+/Ke2PFXWZcT2IvGZl/yn1/upaZKIya1q55lblVMtZ81/p2uxu5xrudKy9udXOKesOmN9x1CXOsVZued0xd8ZQqeP58vjp+egc7mvMMbOCkt9jqfFcvc5J6TkuOc/R92q9X6WmdpF60l8xHwbPAVQ=
   </data>
  </layer>
- <layer name="enemies" width="200" height="17">
+ <layer name="enemies" width="296" height="17">
   <data encoding="base64" compression="zlib">
-   eJzt19EJACAIBcCg/XduhNCgTO7+AzH04RgAcfN1AQCUIA8AAIAs98SeHgFd2W85t/rmf6Cm09nMvLcPAOgmkm1yEAAA/rMAwpUAJQ==
+   eJztwQEBAAAAgJD+r+4ICgAAAAAAAAAAAAAAAAAAAAAAAABqTqAAAQ==
   </data>
  </layer>
- <layer name="cannons" width="200" height="17">
+ <layer name="goal" width="296" height="17">
   <data encoding="base64" compression="zlib">
-   eJzt1oEJACAIBEBp/6EbIYpQyrsJVJQ3AgAA6o3qAgAAWPKzwbvcL5nsGwDsuZmdnXP4pPfO8wIAAAD4zQTQdwAR
+   eJztziEBAAAMAjDM+1e+pQFmS7AEAAAAAAAAWLl1AAAAAAAAAAAAAAAAAMoDTV8ABg==
   </data>
  </layer>
- <layer name="goal" width="200" height="17">
+ <layer name="spikes" width="296" height="17">
   <data encoding="base64" compression="zlib">
-   eJztzkEJAAAIBLD72L+yKQ5BtgRLAAAAAAAAgM/mOgAAAAAAAFC0slwABg==
+   eJzt0rEJADAIRUFb9184I0RBEos7+KR7jYkAAAAAAAAAAAAAAAAAAAAAAABgs7Rnq5rqdJqddg68229wU+3+/nPbdgDfrwe9
   </data>
  </layer>
 </map>

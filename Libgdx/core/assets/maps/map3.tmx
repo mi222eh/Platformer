@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="296" height="17" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="tilesheet2" tilewidth="32" tileheight="32" tilecount="9">
+  <image source="tilesheet2.png" width="96" height="96"/>
+ </tileset>
+ <layer name="player" width="296" height="17">
+  <data encoding="base64" compression="zlib">
+   eJztzjENAAAIA7Ad+NeMhh2Ep1XQBACAxnwHAAAAAAAAAAAAAAAAAAAAAACOLGQvAAU=
+  </data>
+ </layer>
+ <layer name="cannons" width="296" height="17">
+  <data encoding="base64" compression="zlib">
+   eJzt18ENwCAMA0Be7D8yC1SiVKV10N0EVh5x0hoAkKD/HQAAADiev+N7aTNPyzNTLS/AKnsOAPbQsQDAleo3QvX8ADy3swP0y7vME+BcyTs+ORsAAJDJHwEA3DUAUXoAWw==
+  </data>
+ </layer>
+ <layer name="spikes" width="296" height="17">
+  <data encoding="base64" compression="zlib">
+   eJztzkEKACAIRUG33v/C3eCDQq5m4FGEYFUAAAAAAAAAAAAAAAAAAAAAAABc6o9Nd6bZ7Vs60z39U9JND1o4CVs=
+  </data>
+ </layer>
+ <layer name="platforms" width="296" height="17">
+  <data encoding="base64" compression="zlib">
+   eJzt2OEOgyAMRlF9/5deTJbsxwShFvha7knM5kwUSinM4wAAAACAn/N7lM4BAPGNquusF5pYywGo4T9HuzPJ0ds3JXftUWxnBKpjfHlqV6luqfZntB37vKOW+h1VhD6sap91XVaIpUIbdteaMx57yUx659qq2OwyHt5q/yeIZy7WeayUB95tGt3HGfGzrk/q65pKO3amlA+KZs4Zz2e9vY/a3thS+94+D/l5zzfqaR3xeY/4PbO83+HdkJ9SvEqxK8W2d0ysY6c4pgo5N3vfBQ2ra59C7ivI1HeFfHq6niXWiCFKnfOct6178dp57T6t89wj5pb7RRlz5JI177L0A8A/jzX+7lrPb7XP2ndqE7DeB2OlAW0=
+  </data>
+ </layer>
+ <layer name="enemies" width="296" height="17">
+  <data encoding="base64" compression="zlib">
+   eJzt2EESgCAIAECn/z+6e4fGDAxt9+wBRZShNQCgiuPrAAAIlfWu+y8A6OXPyPXkfHvXjuZMrrna7U7sth+AEd5CorhLAKzAjATmmFkz6hMA+Jvs/mfV/qpC3BViAAAAAIj0Zt5hVgIA3DkB1/kALQ==
+  </data>
+ </layer>
+ <layer name="goal" width="296" height="17">
+  <data encoding="base64" compression="zlib">
+   eJztzgEJAAAIA7CD/Tsb4yhbgiUAAABcMe0AAAAAAAAAAAAAAAAAAAAA8NoCEUMABA==
+  </data>
+ </layer>
+</map>

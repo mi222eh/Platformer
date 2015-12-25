@@ -14,7 +14,7 @@ public class EnemyState {
 
     public EnemyState(RunningEnemy runningEnemy){
         this.runningEnemy = runningEnemy;
-        onGround = false;
+        onGround = true;
         inAir = false;
         stateTime = 0;
     }
@@ -41,9 +41,11 @@ public class EnemyState {
             inAir = true;
             onGround = false;
         }
+        /*
         if (!runningEnemy.active){
             onGround = false;
             inAir = false;
         }
+        */
     }
 }

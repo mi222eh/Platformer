@@ -163,8 +163,9 @@ public class Map {
     }
 
     private void handleGoal(){
-        if (goal.isColliding(player.playerBody) && !player.dead){
+        if (goal.isColliding(player.playerBody) && !player.dead && !playerWon){
             playerWon = true;
+            particleObserver.addWinSound();
         }
     }
     
@@ -240,7 +241,9 @@ public class Map {
     }
 
     private void handlePlayer(float time){
-        player.step(time, gravity);
+        if (!playerWon){
+            player.step(time, gravity);
+        }
         if(player.position.x < 0){
             if(player.velocity.x < 0){
                 player.velocity.x = 0;

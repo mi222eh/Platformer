@@ -27,13 +27,13 @@ public class DeadMenu {
         buttonWidth = camera.screenWidth * 0.4f;
         buttonHeight = camera.optimizedHeight * 0.15f;
 
-        int spaceBetween = 20;
+        float spaceBetween = 10 * camera.scaleY;
         int buttonNR = 1;
 
         MainMenu = new Button(
                 buttonWidth,
                 buttonHeight,
-                new Vector2(camera.screenWidth / 2, buttonHeight / 2 + spaceBetween * buttonNR + buttonHeight * buttonNR),
+                new Vector2(camera.screenWidth / 2, buttonHeight / 2 + spaceBetween * buttonNR + buttonHeight * (buttonNR - 1)),
                 new Sprite(new Texture(Gdx.files.internal("Textures/MainMenuButton.png"))),
                 Input.Keys.ESCAPE);
         buttonNR++;
@@ -41,7 +41,7 @@ public class DeadMenu {
         Retry = new Button(
                 buttonWidth,
                 buttonHeight,
-                new Vector2(camera.screenWidth / 2, buttonHeight / 2 + spaceBetween * buttonNR + buttonHeight * buttonNR),
+                new Vector2(camera.screenWidth / 2, buttonHeight / 2 + spaceBetween * buttonNR + buttonHeight * (buttonNR - 1)),
                 new Sprite(new Texture(Gdx.files.internal("Textures/RetryButton.png"))),
                 Input.Keys.ENTER);
 

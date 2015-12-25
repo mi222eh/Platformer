@@ -7,11 +7,12 @@ import com.badlogic.gdx.math.Vector2;
  * Created by Hitstorm13 on 2015-12-13.
  */
 public class RunningEnemy {
+
     public static float speed = 0.1f;
     public static float height = 1f;
     public static float feetHeight = 0.3f;
     public static float width = 0.9f;
-    public static float maxFallSpeed = 0.3f;
+    public static float maxFallSpeed = 0.5f;
 
     public Vector2 position;
     public Vector2 velocity;
@@ -50,8 +51,13 @@ public class RunningEnemy {
                     hasJumped = true;
                 }
                 velocity.y = velocity.y + gravity.y * time;
+                /*
                 if(velocity.y >= maxFallSpeed){
                     velocity.y = maxFallSpeed;
+                }
+                */
+                if (velocity.y <= - maxFallSpeed){
+                    velocity.y = -maxFallSpeed;
                 }
             }
             else {
@@ -86,7 +92,7 @@ public class RunningEnemy {
     }
 
     private void jump(){
-        velocity.y = 0.5f;
+        velocity.y = 0.4f;
         onGround = false;
     }
 }

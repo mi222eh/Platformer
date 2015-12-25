@@ -13,9 +13,7 @@ import com.mygdx.game.Model.Map;
 import com.mygdx.game.Platformer;
 import com.mygdx.game.View.Camera;
 import com.mygdx.game.View.MapView;
-import com.mygdx.game.View.Menu.Button;
-import com.mygdx.game.View.Menu.DeadMenu;
-import com.mygdx.game.View.Menu.PauseMenu;
+import com.mygdx.game.View.Menu.*;
 
 /**
  * Created by Hitstorm13 on 2015-12-07.
@@ -24,6 +22,7 @@ public class MainGameController implements Screen{
 
     DeadMenu deadMenu;
     PauseMenu pauseMenu;
+    WinMenu winMenu;
 
     private boolean retry;
     private boolean goToMainMenu;
@@ -60,6 +59,7 @@ public class MainGameController implements Screen{
 
         deadMenu = new DeadMenu(camera);
         pauseMenu = new PauseMenu(camera);
+        winMenu = new WinMenu(camera);
     }
 
     @Override
@@ -88,6 +88,10 @@ public class MainGameController implements Screen{
 
         if (map.isPaused()){
             pauseMenu.render(game.batch);
+        }
+
+        if (map.isPlayerWon()){
+            winMenu.render(game.batch);
         }
 
         game.batch.end();
@@ -127,6 +131,19 @@ public class MainGameController implements Screen{
         }
         if (map.isPaused()){
             handlePauseMenu();
+        }
+
+        if (map.isPlayerWon()){
+            handleWonMenu();
+        }
+    }
+
+    private void handleWonMenu() {
+        if (winMenu.doesUserWantToGoToMainMenu()){
+            goToMainMenu = true;
+        }
+        if (winMenu.doesUserWantToReplay()){
+            retry = true;
         }
     }
 

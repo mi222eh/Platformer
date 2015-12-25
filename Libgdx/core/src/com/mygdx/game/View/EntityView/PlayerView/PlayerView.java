@@ -76,28 +76,29 @@ public class PlayerView {
         playerJumpTexture = new Sprite(new Texture(Gdx.files.internal("Textures/PlayerJump.png")));
     }
 
-    public void draw(SpriteBatch batch, float time, boolean isPaused){
-        updateState();
-        if(!player.dead){
-            if (playerIsStanding){
-                drawStandingPlayer(batch, time, isPaused);
-            }
-            else if(playerIsJumping){
-                drawPlayerJumping(batch);
-            }
+    public void draw(SpriteBatch batch, float time, boolean isPaused, boolean hasWon){
+        if (!hasWon) {
+            updateState();
+            if(!player.dead){
+                if (playerIsStanding){
+                    drawStandingPlayer(batch, time, isPaused);
+                }
+                else if(playerIsJumping){
+                    drawPlayerJumping(batch);
+                }
 
-            else if(playerIsFalling){
-                drawPlayerFalling(batch);
-            }
+                else if(playerIsFalling){
+                    drawPlayerFalling(batch);
+                }
 
-            else if(playerIsWalking){
-                drawWalkingPlayer(batch, time, isPaused);
-            }
-            if(playerIsAttacking){
-                drawSwordSlash(batch);
+                else if(playerIsWalking){
+                    drawWalkingPlayer(batch, time, isPaused);
+                }
+                if(playerIsAttacking){
+                    drawSwordSlash(batch);
+                }
             }
         }
-
     }
 
 

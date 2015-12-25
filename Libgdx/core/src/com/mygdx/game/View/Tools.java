@@ -1,8 +1,11 @@
 package com.mygdx.game.View;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mygdx.game.Platformer;
 
 /**
  * Created by Hitstorm13 on 2015-12-15.
@@ -26,6 +29,12 @@ public class Tools {
         for (TextureRegion region :
                 textureRegions) {
             region.getTexture().dispose();
+        }
+    }
+
+    public static void playAudio(Sound sound, float volume){
+        if (Platformer.sound){
+            sound.play(volume);
         }
     }
 }

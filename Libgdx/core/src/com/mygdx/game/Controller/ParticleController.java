@@ -7,12 +7,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Model.Interface.ParticleObserver;
 import com.mygdx.game.View.Camera;
 import com.mygdx.game.View.Particles.ParticleHandler;
+import com.mygdx.game.View.Tools;
 
 /**
  * Created by Hitstorm13 on 2015-12-15.
  */
 public class ParticleController implements ParticleObserver{
-    Sound swordSound, jumpSound, dieSound, killSound, shootSound, explosionSound;
+    Sound swordSound, jumpSound, dieSound, killSound, shootSound, explosionSound, winSound;
     ParticleHandler particleHandler;
     Camera camera;
 
@@ -23,6 +24,7 @@ public class ParticleController implements ParticleObserver{
         killSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Kill.wav"));
         shootSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Shoot.wav"));
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Explosion.wav"));
+        winSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/win.wav"));
         this.camera = camera;
 
         particleHandler = new ParticleHandler(camera);
@@ -35,7 +37,7 @@ public class ParticleController implements ParticleObserver{
         killSound.dispose();
         shootSound.dispose();
         explosionSound.dispose();
-
+        winSound.dispose();
         particleHandler.dispose();
     }
 
@@ -49,32 +51,32 @@ public class ParticleController implements ParticleObserver{
 
     @Override
     public void slashSound() {
-        swordSound.play();
+        Tools.playAudio(swordSound, 1);
     }
 
     @Override
     public void jumpSound() {
-        jumpSound.play(0.1f);
+        Tools.playAudio(jumpSound, 0.1f);
     }
 
     @Override
     public void deadSound() {
-        dieSound.play();
+        Tools.playAudio(dieSound, 1);
     }
 
     @Override
     public void killSound() {
-        killSound.play(0.8f);
+        Tools.playAudio(killSound, 0.7f);
     }
 
     @Override
     public void shootSound() {
-        shootSound.play(0.2f);
+        Tools.playAudio(shootSound, 0.2f);
     }
 
     @Override
     public void explosionSound() {
-        explosionSound.play();
+        Tools.playAudio(explosionSound, 1);
     }
 
     @Override
@@ -95,5 +97,15 @@ public class ParticleController implements ParticleObserver{
     @Override
     public void addBulletDeflectWave(Vector2 logicPos) {
         particleHandler.addDeflectWave(logicPos);
+    }
+
+    @Override
+    public void addBloodWave(Vector2 logicPos) {
+        particleHandler.addSplitters(logicPos);
+    }
+
+    @Override
+    public void addWinSound() {
+        Tools.playAudio(winSound, 0.3f);
     }
 }

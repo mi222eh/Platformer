@@ -52,10 +52,10 @@ public class MapView {
         drawBackground(batch);
         drawPlatforms(batch);
         drawSpikes(batch);
-        playerView.draw(batch, time, map.isPaused());
+        playerView.draw(batch, time, map.isPaused(), map.isPlayerWon());
         runningEnemyView.draw(batch, time, map.isPaused());
         cannonView.draw(batch);
-        goalView.render(batch, time);
+        goalView.render(batch, time, map.isPlayerWon());
     }
 
     private void drawPlatforms(SpriteBatch batch){
@@ -104,7 +104,7 @@ public class MapView {
         return Gdx.input.isKeyPressed(Input.Keys.RIGHT);
     }
     public boolean doesPlayerWantToJump(){
-        return Gdx.input.isKeyJustPressed(Input.Keys.Z);
+        return Gdx.input.isKeyPressed(Input.Keys.Z);
     }
     public boolean doesPlayerWantToAttack(){
         return Gdx.input.isKeyJustPressed(Input.Keys.X);
