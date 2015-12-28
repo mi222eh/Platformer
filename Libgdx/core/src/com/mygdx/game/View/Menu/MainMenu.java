@@ -1,6 +1,8 @@
 package com.mygdx.game.View.Menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,7 +28,7 @@ public class MainMenu {
     float buttonWidth;
     float buttonHeight;
 
-    public MainMenu(Camera camera){
+    public MainMenu(Camera camera, Sound hoverSound, Sound clickSound){
         buttonWidth = camera.screenWidth * 0.4f;
         buttonHeight = camera.screenHeight * 0.15f;
 
@@ -41,7 +43,9 @@ public class MainMenu {
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2,  buttonHeight / 2 + spaceBetween + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/QuitButton.png"))),
-                28456238);
+                Input.Keys.ESCAPE,
+                hoverSound,
+                clickSound);
         buttonNumber++;
 
         //SOUND BUTTONS
@@ -49,13 +53,17 @@ public class MainMenu {
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2,  buttonHeight / 2 + spaceBetween + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/SoundOnButton.png"))),
-                28456238);
+                Input.Keys.S,
+                hoverSound,
+                clickSound);
         SoundOnButton = new Button(buttonWidth,
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2,
                         buttonHeight / 2 + spaceBetween + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/SoundOffButton.png"))),
-                28456238);
+                Input.Keys.S,
+                hoverSound,
+                clickSound);
         buttonNumber++;
 
         //INSTRUCTIONS BUTTON
@@ -64,14 +72,18 @@ public class MainMenu {
                 new Vector2(camera.screenWidth / 2,
                         buttonHeight / 2 + spaceBetween + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/InstructionsButton.png"))),
-                28456238);
+                Input.Keys.I,
+                hoverSound,
+                clickSound);
         buttonNumber++;
         PlayButton = new Button(buttonWidth,
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2,
                         buttonHeight / 2 + spaceBetween + spaceBetween * buttonNumber + buttonHeight * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/PlayButton.png"))),
-                28456238);
+                Input.Keys.ENTER,
+                hoverSound,
+                clickSound);
     }
 
 

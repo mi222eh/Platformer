@@ -15,8 +15,7 @@ import com.mygdx.game.View.Particles.Explosion.Smoke.SmokeSystem;
 
 public class CombinedExplosionSystem {
 
-    //Array<BloodParticle> SplitterParticles;
-    //Array<SmokeParticle> SmokeParticles;
+
     ExplosionSystem Explosion;
     SmokeSystem Smoke;
     com.mygdx.game.View.Particles.Explosion.Shockwave.ShockwaveSystem ShockwaveSystem;
@@ -29,7 +28,7 @@ public class CombinedExplosionSystem {
     public CombinedExplosionSystem(Sprite smoke, TextureRegion[] explosionFrames, Vector2 position, Camera camera, Sprite shockwave){
         Explosion = new ExplosionSystem(_explosionFrames, position);
         Smoke = new SmokeSystem(position);
-        ShockwaveSystem = new ShockwaveSystem(position, 0.2f, 5f);
+        ShockwaveSystem = new ShockwaveSystem(position, 0.2f, 1f);
         _smoke = smoke;
         _explosionFrames = explosionFrames;
         _shockwave = shockwave;

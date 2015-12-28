@@ -2,6 +2,7 @@ package com.mygdx.game.View.Menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,7 +18,7 @@ public class WinMenu {
     Button MainMenu;
     Button Replay;
 
-    public WinMenu(Camera camera){
+    public WinMenu(Camera camera, Sound hoverSound, Sound clickSound){
 
         this.camera = camera;
 
@@ -34,14 +35,18 @@ public class WinMenu {
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2, buttonHeight / 2 + spaceBetween * buttonNr + spaceBetween + buttonHeight * buttonNr),
                 new Sprite(new Texture(Gdx.files.internal("Textures/MainMenuButton.png"))),
-                Input.Keys.ESCAPE);
+                Input.Keys.ESCAPE,
+                hoverSound,
+                clickSound);
         buttonNr++;
 
         Replay = new Button(buttonWidth,
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2, buttonHeight / 2 + spaceBetween * buttonNr + spaceBetween + buttonHeight * buttonNr),
                 new Sprite(new Texture(Gdx.files.internal("Textures/ReplayButton.png"))),
-                Input.Keys.ESCAPE);
+                Input.Keys.ESCAPE,
+                hoverSound,
+                clickSound);
         buttonNr++;
     }
 

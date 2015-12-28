@@ -2,6 +2,7 @@ package com.mygdx.game.Controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.mygdx.game.Platformer;
 import com.mygdx.game.View.Camera;
@@ -19,22 +20,26 @@ public class MainMenuController implements Screen {
     LevelMenu levelMenu;
     Camera camera;
     Platformer game;
+    Sound hoverSound, clickSound;
 
     private boolean isInInstruction;
-    private boolean isInLeveSelect;
+    private boolean isInLevelSelect;
 
     public MainMenuController(Platformer platformer, Camera camera){
         this.game = platformer;
         this.camera = camera;
         isInInstruction = false;
-        isInLeveSelect = false;
+        isInLevelSelect = false;
+
+        hoverSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Hover.wav"));
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Click.wav"));
     }
 
     @Override
     public void show() {
-        mainMenu = new MainMenu(camera);
-        instructionMenu = new InstructionsMenu(camera);
-        levelMenu = new LevelMenu(camera);
+        mainMenu = new MainMenu(camera, hoverSound, clickSound);
+        instructionMenu = new InstructionsMenu(camera, hoverSound, clickSound);
+        levelMenu = new LevelMenu(camera, hoverSound, clickSound);
     }
 
     @Override
@@ -46,7 +51,7 @@ public class MainMenuController implements Screen {
         handleControls();
 
         game.batch.begin();
-        if (isInLeveSelect){
+        if (isInLevelSelect){
             levelMenu.render(game.batch);
         }
         else if (isInInstruction){
@@ -71,11 +76,11 @@ public class MainMenuController implements Screen {
 
         if (mainMenu.doesUserWantToSeeInstructions()){
             isInInstruction = true;
-            isInLeveSelect = false;
+            isInLevelSelect = false;
         }
 
         if (mainMenu.doesUserWantToPlay()){
-            isInLeveSelect = true;
+            isInLevelSelect = true;
             isInInstruction = false;
         }
     }
@@ -84,7 +89,7 @@ public class MainMenuController implements Screen {
         instructionMenu.handlePreviousButton();
         instructionMenu.handleUserPressNext();
         if (instructionMenu.didUserWantToGoBack()){
-            isInLeveSelect = false;
+            isInLevelSelect = false;
             isInInstruction = false;
         }
     }
@@ -92,7 +97,7 @@ public class MainMenuController implements Screen {
     public void levelMenuHandler(){
         if (levelMenu.doesUserWantToGoBack()){
             isInInstruction = false;
-            isInLeveSelect = false;
+            isInLevelSelect = false;
         }
         if (levelMenu.doesUserWantToGoLevel1()){
             game.setScreen(new MainGameController(game, camera, 1));
@@ -110,7 +115,7 @@ public class MainMenuController implements Screen {
         if (isInInstruction){
             instructionHandler();
         }
-        else if (isInLeveSelect){
+        else if (isInLevelSelect){
             levelMenuHandler();
         }
         else {

@@ -2,6 +2,7 @@ package com.mygdx.game.View.Menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,7 +28,7 @@ public class LevelMenu {
 
     Sprite title;
 
-    public LevelMenu(Camera camera){
+    public LevelMenu(Camera camera, Sound hoverSound, Sound clickSound){
 
         title = new Sprite(new Texture(Gdx.files.internal("Textures/LevelTitle.png")));
 
@@ -42,28 +43,36 @@ public class LevelMenu {
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2, buttonHeight / 2 + buttonHeight * (buttonNumber - 1) + spaceBetweenButton * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/BackButton.png"))),
-                Input.Keys.ESCAPE);
+                Input.Keys.ESCAPE,
+                hoverSound,
+                clickSound);
 
         buttonNumber++;
         level3 = new Button(buttonWidth,
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2, buttonHeight / 2 + buttonHeight * (buttonNumber - 1) + spaceBetweenButton * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/Level3Button.png"))),
-                Input.Keys.NUM_3);
+                Input.Keys.NUM_3,
+                hoverSound,
+                clickSound);
 
         buttonNumber++;
         level2 = new Button(buttonWidth,
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2, buttonHeight / 2 + buttonHeight * (buttonNumber - 1) + spaceBetweenButton * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/Level2Button.png"))),
-                Input.Keys.NUM_2);
+                Input.Keys.NUM_2,
+                hoverSound,
+                clickSound);
 
         buttonNumber++;
         level1 = new Button(buttonWidth,
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2, buttonHeight / 2 + buttonHeight * (buttonNumber - 1) + spaceBetweenButton * buttonNumber),
                 new Sprite(new Texture(Gdx.files.internal("Textures/Level1Button.png"))),
-                Input.Keys.NUM_1);
+                Input.Keys.NUM_1,
+                hoverSound,
+                clickSound);
     }
 
     public void render(SpriteBatch batch){

@@ -2,6 +2,7 @@ package com.mygdx.game.View.Menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,7 +18,7 @@ public class PauseMenu {
     Button MainMenu;
     Button Resume;
 
-    public PauseMenu(Camera camera){
+    public PauseMenu(Camera camera, Sound hoverSound, Sound clickSound){
         this.camera = camera;
         title = new Sprite(new Texture(Gdx.files.internal("Textures/PauseTitle.png")));
         float buttonWidth = camera.screenWidth * 0.4f;
@@ -29,14 +30,18 @@ public class PauseMenu {
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2, buttonHeight / 2 + spaceBetween * buttonNr + buttonHeight * buttonNr),
                 new Sprite(new Texture(Gdx.files.internal("Textures/MainMenuButton.png"))),
-                1231231231);
+                Input.Keys.Q,
+                hoverSound,
+                clickSound);
         buttonNr++;
 
         Resume = new Button(buttonWidth,
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2, buttonHeight / 2 + spaceBetween * buttonNr + buttonHeight * buttonNr),
                 new Sprite(new Texture(Gdx.files.internal("Textures/ResumeButton.png"))),
-                Input.Keys.ENTER);
+                Input.Keys.ENTER,
+                hoverSound,
+                clickSound);
     }
 
     public void render(SpriteBatch batch){

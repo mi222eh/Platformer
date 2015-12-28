@@ -31,7 +31,7 @@ public class ParticleHandler {
     Array<SplitterSystem> splitterSystems;
 
     public ParticleHandler(Camera camera){
-        _shockwave = new Sprite(new Texture(Gdx.files.internal("shockwave.png")));
+        _shockwave = new Sprite(new Texture(Gdx.files.internal("Textures/PlayerExplodeWave.png")));
         _smoke = new Sprite(new Texture(Gdx.files.internal("Textures/smoke_particle.png")));
         greenShockWave = new Sprite(new Texture(Gdx.files.internal("Textures/GreenShockWave.png")));
         yellowShockWave = new Sprite(new Texture(Gdx.files.internal("Textures/YellowShockWave.png")));
@@ -114,7 +114,7 @@ public class ParticleHandler {
     }
 
     public void addDeathWave(Vector2 logicPos) {
-        deathwaves.add(new ShockwaveSystem(logicPos, 0.2f, 7f));
+        deathwaves.add(new ShockwaveSystem(logicPos, 0.2f, 20f));
     }
 
     public void addKillWave(Vector2 logicPos) {

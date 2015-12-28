@@ -3,6 +3,7 @@ package com.mygdx.game.Controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -36,6 +37,8 @@ public class MainGameController implements Screen{
     Camera camera;
     ParticleController particleController;
 
+    Sound clickSound, hoverSound;
+
     private int currentLevel;
 
     public MainGameController(Platformer platformer, Camera camera, int level) {
@@ -44,6 +47,9 @@ public class MainGameController implements Screen{
         accumulatedTime = 0;
         this.camera = camera;
         currentLevel = level;
+
+        hoverSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Hover.wav"));
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Click.wav"));
     }
 
     @Override
@@ -57,9 +63,9 @@ public class MainGameController implements Screen{
         mapView = new MapView(map, camera);
         camera.setStageWidth(map.width);
 
-        deadMenu = new DeadMenu(camera);
-        pauseMenu = new PauseMenu(camera);
-        winMenu = new WinMenu(camera);
+        deadMenu = new DeadMenu(camera, hoverSound, clickSound);
+        pauseMenu = new PauseMenu(camera, hoverSound, clickSound);
+        winMenu = new WinMenu(camera, hoverSound, clickSound);
     }
 
     @Override
@@ -173,7 +179,9 @@ public class MainGameController implements Screen{
 
     @Override
     public void pause() {
-
+        if (!map.isPaused()){
+            map.togglePause();
+        }
     }
 
     @Override
@@ -183,7 +191,9 @@ public class MainGameController implements Screen{
 
     @Override
     public void hide() {
-
+        if (!map.isPaused()){
+            map.togglePause();
+        }
     }
 
     @Override

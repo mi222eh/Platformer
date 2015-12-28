@@ -2,6 +2,7 @@ package com.mygdx.game.View.Menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,7 +28,7 @@ public class InstructionsMenu {
     int currentPage;
     Sprite pageTexture;
 
-    public InstructionsMenu(Camera camera){
+    public InstructionsMenu(Camera camera, Sound hoverSound, Sound clickSound){
 
         this.camera = camera;
 
@@ -46,21 +47,27 @@ public class InstructionsMenu {
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2, buttonHeight),
                 new Sprite(new Texture(Gdx.files.internal("Textures/BackButton.png"))),
-                Input.Keys.ESCAPE);
+                Input.Keys.ESCAPE,
+                hoverSound,
+                clickSound);
 
         //PREVIOUS
         PreviousButton = new Button(buttonWidth,
                 buttonHeight,
                 new Vector2(camera.screenWidth / 2 - buttonWidth - spaceBetweenButton, buttonHeight),
                 new Sprite(new Texture(Gdx.files.internal("Textures/PreviousButton.png"))),
-                Input.Keys.LEFT);
+                Input.Keys.LEFT,
+                hoverSound,
+                clickSound);
 
         //NEXT
         NextButton = new Button(buttonWidth, buttonHeight,
                 new Vector2(camera.screenWidth / 2 + buttonWidth + spaceBetweenButton,
                         buttonHeight),
                 new Sprite(new Texture(Gdx.files.internal("Textures/NextButton.png"))),
-                Input.Keys.RIGHT);
+                Input.Keys.RIGHT,
+                hoverSound,
+                clickSound);
     }
 
     public void render(SpriteBatch batch){
