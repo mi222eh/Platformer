@@ -11,7 +11,6 @@ import com.mygdx.game.View.Camera;
  */
 public class SmokeSystem {
 
-    Camera _camera;
     float _smokeTime;
     boolean _canAddNewSmoke;
     int _numberOfSmokeParticles;

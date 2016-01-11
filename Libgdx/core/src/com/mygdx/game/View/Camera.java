@@ -9,25 +9,37 @@ import com.mygdx.game.Model.Entities.Player;
  */
 public class Camera {
 
+    private float lerp;
+
+    //Pixels per meter
     private float PPM;
 
+    //Scaled pixels per meters
     public float PPMX;
     public float PPMY;
 
+    //Scales
     public float scaleX;
     public float scaleY;
 
+    //Current screen coordinates
     public float screenWidth;
     public float screenHeight;
 
+    //Original coordinates
     public float optimizedWidth;
     public float optimizedHeight;
 
+    //Displacement
     public float displacement;
 
+    //Stage width
     public float stageWidth;
 
     public Camera(){
+
+        lerp = 0.30f;
+
         displacement = 0;
         PPM = 32;
 
@@ -73,6 +85,7 @@ public class Camera {
             displacement = stageWidth - screenWidth;
             return;
         }
+
         displacement = viewpos.x - screenWidth / 2;
     }
 }

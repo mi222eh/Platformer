@@ -37,7 +37,7 @@ public class Map {
     private Array<Cannon> cannons;
     private Goal goal;
 
-
+    //width of the stage
     public float width;
 
     public Map(TiledMap tiledMap, ParticleObserver particleObserver){

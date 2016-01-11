@@ -73,7 +73,7 @@ public class Player {
         idleSpeed = 0.1f;
         acceleration = 1f;
         jumpSpeed = 1f;
-        idleAcceleration = 0.08f;
+        idleAcceleration = 0.09f;
         airAcceleration = 0.5f;
 
         //Player values (measurements)

@@ -14,16 +14,29 @@ import com.mygdx.game.View.Tools;
  */
 public class Button {
 
+    //Hover texture effect
     private static Sprite hoverEffekt = new Sprite(new Texture(Gdx.files.internal("Textures/HoverButton.png")));
+
+    //Button specs
     float width;
     float height;
     Vector2 position;
+
+    //Texture
     Sprite button;
+
+    //Shortcut key
     int shortKey;
+
+    //Mous position
     float mouseX;
     float mouseY;
+
+    //Sounds
     Sound hoverSound;
     Sound clickSound;
+
+    //state
     boolean hasSounded;
 
     public Button(float width, float height, Vector2 position, Sprite texture, int shortKey, Sound hoverSound, Sound clickSound){

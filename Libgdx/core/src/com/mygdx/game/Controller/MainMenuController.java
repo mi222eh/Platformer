@@ -15,11 +15,18 @@ import com.mygdx.game.View.Menu.MainMenu;
  */
 public class MainMenuController implements Screen {
 
+    //Menus
     MainMenu mainMenu;
     InstructionsMenu instructionMenu;
     LevelMenu levelMenu;
+
+    //Camera
     Camera camera;
+
+    //Game object
     Platformer game;
+
+    //Sounds
     Sound hoverSound, clickSound;
 
     private boolean isInInstruction;
@@ -100,14 +107,14 @@ public class MainMenuController implements Screen {
             isInLevelSelect = false;
         }
         if (levelMenu.doesUserWantToGoLevel1()){
-            game.setScreen(new MainGameController(game, camera, 1));
+            game.setScreen(new MainGameController(game, camera, 1, 0));
             dispose();
         }
         if (levelMenu.doesUserWantoToGoLevel2()){
-            game.setScreen(new MainGameController(game, camera, 2));
+            game.setScreen(new MainGameController(game, camera, 2, 0));
         }
         if (levelMenu.doesUuserWantToGoLevel3()){
-            game.setScreen(new MainGameController(game, camera, 3));
+            game.setScreen(new MainGameController(game, camera, 3, 0));
         }
     }
 

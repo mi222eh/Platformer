@@ -6,9 +6,13 @@ import com.mygdx.game.Model.Entities.RunningEnemy;
  * Created by Hitstorm13 on 2015-12-15.
  */
 public class EnemyState {
+    //Model
     public RunningEnemy runningEnemy;
+
+    //Time
     public float stateTime;
 
+    //State
     public boolean onGround;
     public boolean inAir;
 
@@ -41,11 +45,5 @@ public class EnemyState {
             inAir = true;
             onGround = false;
         }
-        /*
-        if (!runningEnemy.active){
-            onGround = false;
-            inAir = false;
-        }
-        */
     }
 }

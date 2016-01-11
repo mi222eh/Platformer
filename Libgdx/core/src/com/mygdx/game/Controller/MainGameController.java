@@ -1,51 +1,79 @@
 package com.mygdx.game.Controller;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Model.Map;
 import com.mygdx.game.Platformer;
 import com.mygdx.game.View.Camera;
 import com.mygdx.game.View.MapView;
-import com.mygdx.game.View.Menu.*;
+import com.mygdx.game.View.Menu.DeadMenu;
+import com.mygdx.game.View.Menu.PauseMenu;
+import com.mygdx.game.View.Menu.WinMenu;
 
 /**
  * Created by Hitstorm13 on 2015-12-07.
  */
 public class MainGameController implements Screen{
 
+    FPSLogger fpsLogger;
+
+    //Menus
     DeadMenu deadMenu;
     PauseMenu pauseMenu;
     WinMenu winMenu;
 
+    //User state
     private boolean retry;
     private boolean goToMainMenu;
+    private boolean justDied;
+    private boolean replay;
 
+    //Steptime (the less the more computing needed)
     private float stepTime;
+
+    //Collected time in between render calls
     private float accumulatedTime;
+
+    //Game object
     private Platformer game;
+
+    //Model
     private Map map;
+
+    //View
     private MapView mapView;
+
+    //Load (maploader in this case)
     private TmxMapLoader mapLoader;
+
+    //Camera
     Camera camera;
+
+    //Another controller
     ParticleController particleController;
 
+    //Sounds
     Sound clickSound, hoverSound;
 
+    //Level
     private int currentLevel;
 
-    public MainGameController(Platformer platformer, Camera camera, int level) {
+    //number of deaths
+    private int deaths;
+
+    public MainGameController(Platformer platformer, Camera camera, int level, int deaths) {
+        fpsLogger = new FPSLogger();
+        justDied = false;
         game = platformer;
         stepTime = (float)1/60;
         accumulatedTime = 0;
         this.camera = camera;
+        this.deaths = deaths;
         currentLevel = level;
 
         hoverSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Hover.wav"));
@@ -54,6 +82,7 @@ public class MainGameController implements Screen{
 
     @Override
     public void show() {
+        replay = false;
         goToMainMenu = false;
         retry = false;
         particleController = new ParticleController(camera);
@@ -70,6 +99,7 @@ public class MainGameController implements Screen{
 
     @Override
     public void render(float delta) {
+        fpsLogger.log();
         Gdx.gl.glClearColor( 0.7f, 0.7f, 0.7f, 1 );
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 
@@ -85,10 +115,14 @@ public class MainGameController implements Screen{
         camera.update(map.getPlayer());
 
         game.batch.begin();
-        mapView.render(game.batch, delta);
+        mapView.render(game.batch, delta, deaths);
         particleController.render(game.batch);
 
         if (map.isPlayerDead()){
+            if (!justDied){
+                deaths++;
+                justDied = true;
+            }
             deadMenu.render(game.batch);
         }
 
@@ -104,12 +138,16 @@ public class MainGameController implements Screen{
 
         if (retry){
             dispose();
-            game.setScreen(new MainGameController(game, camera, currentLevel));
+            game.setScreen(new MainGameController(game, camera, currentLevel, deaths));
         }
 
         if (goToMainMenu){
             dispose();
             game.setScreen(new MainMenuController(game, camera));
+        }
+        if (replay){
+            dispose();
+            game.setScreen(new MainGameController(game, camera, currentLevel, 0));
         }
     }
 
@@ -149,7 +187,7 @@ public class MainGameController implements Screen{
             goToMainMenu = true;
         }
         if (winMenu.doesUserWantToReplay()){
-            retry = true;
+            replay = true;
         }
     }
 
@@ -179,7 +217,7 @@ public class MainGameController implements Screen{
 
     @Override
     public void pause() {
-        if (!map.isPaused()){
+        if (!map.isPaused() && !map.isPlayerDead()){
             map.togglePause();
         }
     }
@@ -191,7 +229,7 @@ public class MainGameController implements Screen{
 
     @Override
     public void hide() {
-        if (!map.isPaused()){
+        if (!map.isPaused() && !map.isPlayerDead()){
             map.togglePause();
         }
     }

@@ -11,15 +11,32 @@ import com.mygdx.game.View.Tools;
  * Created by Michael on 2015-12-20.
  */
 public class GoalView {
+
+    //Acceleration (upwards)
     float acceleration;
+
+    //Starting velocity
     Vector2 velocity;
+
+    //Starting position
     Vector2 position;
+
+    //Camera
     Camera camera;
+
+    //Total time
     float stateTime;
+
+    //Don't know
     float wonTime;
-    float rotationSpeed;
+
+    //Animation cycle speed
     float animationSpeed;
+
+    //Model
     Goal goal;
+
+    //Textures
     TextureRegion[] goalFrames, goalBoardFrames;
 
     public GoalView(Camera camera, Goal goal){
@@ -29,7 +46,6 @@ public class GoalView {
         animationSpeed = 0.2f;
         this.goal = goal;
         this.position = goal.position;
-        rotationSpeed = 360;
         stateTime = 0;
         this.camera = camera;
         goalFrames = Tools.loadFrames("Textures/Goal.png", 2, 1);
@@ -50,7 +66,7 @@ public class GoalView {
             float width = goal.width * camera.PPMX;
             float height = goal.height * camera.PPMY;
 
-            float addY = (float)Math.sin(stateTime) * 3 - 1.5f;
+            float addY = (float)Math.sin(stateTime * 2) * 3 - 1.5f;
 
             batch.draw(currentFrame, viewPos.x - camera.displacement, viewPos.y + addY, width, height);
         }
@@ -70,5 +86,6 @@ public class GoalView {
 
     public void dispose(){
         Tools.disposeTextures(goalFrames);
+        Tools.disposeTextures(goalBoardFrames);
     }
 }

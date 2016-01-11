@@ -14,8 +14,13 @@ import com.mygdx.game.View.Camera;
  * Created by Hitstorm13 on 2015-12-16.
  */
 public class CannonView {
+    //Camera
     Camera camera;
+
+    //Textures
     Sprite cannonTexture, cannonDeadTexture, bulletTexture;
+
+    //Model
     Array<Cannon> cannons;
 
     public CannonView(Camera camera, Array<Cannon> cannons){

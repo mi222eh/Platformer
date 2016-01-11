@@ -14,14 +14,28 @@ import com.mygdx.game.View.Camera;
  * Created by Hitstorm13 on 2015-12-14.
  */
 public class PlayerView {
+
+    //Camera
     Camera camera;
+
+    //Model
     Player player;
+
+    //State time
     float stateTime;
+
+    //Standing animation cycle time
     float standTime;
+
+    //Walking animation cycle time
     float walkTime;
+
+    //Textures
     TextureRegion[] playerStandFrames, playerWalkFrames, swordSlashFrames;
     TextureRegion playerJumpTexture, playerFallTexture;
 
+
+    //Player state
     boolean playerIsStanding;
     boolean playerIsWalking;
     boolean playerIsJumping;

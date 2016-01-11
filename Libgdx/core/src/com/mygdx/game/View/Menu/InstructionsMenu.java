@@ -32,7 +32,7 @@ public class InstructionsMenu {
 
         this.camera = camera;
 
-        numberOfInstructions = 2;
+        numberOfInstructions = 6;
         currentPage = 1;
 
         pageTexture = new Sprite(new Texture(Gdx.files.internal("Textures/Instructions" + currentPage + ".png")));

@@ -23,12 +23,12 @@ public class PauseMenu {
         title = new Sprite(new Texture(Gdx.files.internal("Textures/PauseTitle.png")));
         float buttonWidth = camera.screenWidth * 0.4f;
         float buttonHeight = camera.screenHeight * 0.15f;
-        int buttonNr = 1;
+        int buttonNr = 0;
         float spaceBetween = 10 * camera.scaleY;
 
         MainMenu = new Button(buttonWidth,
                 buttonHeight,
-                new Vector2(camera.screenWidth / 2, buttonHeight / 2 + spaceBetween * buttonNr + buttonHeight * buttonNr),
+                new Vector2(camera.screenWidth / 2, buttonHeight / 2 + spaceBetween * buttonNr + buttonHeight * buttonNr + spaceBetween),
                 new Sprite(new Texture(Gdx.files.internal("Textures/MainMenuButton.png"))),
                 Input.Keys.Q,
                 hoverSound,
@@ -37,7 +37,7 @@ public class PauseMenu {
 
         Resume = new Button(buttonWidth,
                 buttonHeight,
-                new Vector2(camera.screenWidth / 2, buttonHeight / 2 + spaceBetween * buttonNr + buttonHeight * buttonNr),
+                new Vector2(camera.screenWidth / 2, buttonHeight / 2 + spaceBetween * buttonNr + buttonHeight * buttonNr + spaceBetween),
                 new Sprite(new Texture(Gdx.files.internal("Textures/ResumeButton.png"))),
                 Input.Keys.ENTER,
                 hoverSound,

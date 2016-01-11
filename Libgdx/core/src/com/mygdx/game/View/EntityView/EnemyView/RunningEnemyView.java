@@ -15,10 +15,19 @@ import com.mygdx.game.View.Tools;
  * Created by Hitstorm13 on 2015-12-15.
  */
 public class RunningEnemyView {
+    //Camera
     Camera camera;
+
+    //Walking textures
     TextureRegion[] runningEnemyWalkingFrames;
+
+    //In air texture
     TextureRegion runningEnemyInAirTexture;
+
+    //State view
     Array<EnemyState> enemyStates;
+
+    //Walktime for animation cycle
     private float walkTime;
 
 

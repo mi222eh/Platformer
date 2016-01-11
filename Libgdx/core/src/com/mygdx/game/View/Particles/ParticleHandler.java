@@ -10,14 +10,16 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.View.Camera;
 import com.mygdx.game.View.Particles.Explosion.CombinedExplosionSystem;
 import com.mygdx.game.View.Particles.Explosion.Shockwave.ShockwaveSystem;
-import com.mygdx.game.View.Particles.Explosion.Splitter.SplitterSystem;
 import com.mygdx.game.View.Tools;
 
 /**
  * Created by Hitstorm13 on 2015-12-16.
  */
 public class ParticleHandler {
+
+    //Camera
     Camera camera;
+
     //Texture
     Sprite _shockwave, greenShockWave, yellowShockWave, blood;
     Sprite _smoke;
@@ -28,7 +30,6 @@ public class ParticleHandler {
     Array<ShockwaveSystem> deathwaves;
     Array<ShockwaveSystem> greenWaves;
     Array<ShockwaveSystem> yellowWaves;
-    Array<SplitterSystem> splitterSystems;
 
     public ParticleHandler(Camera camera){
         _shockwave = new Sprite(new Texture(Gdx.files.internal("Textures/PlayerExplodeWave.png")));
@@ -42,7 +43,6 @@ public class ParticleHandler {
         deathwaves = new Array<ShockwaveSystem>();
         greenWaves = new Array<ShockwaveSystem>();
         yellowWaves = new Array<ShockwaveSystem>();
-        splitterSystems = new Array<SplitterSystem>();
     }
 
     public void addExplosion(Vector2 logicPosition){
@@ -67,10 +67,6 @@ public class ParticleHandler {
                 yellowWaves) {
             system.step(time);
         }
-        for (SplitterSystem system :
-                splitterSystems) {
-            system.step(time);
-        }
     }
 
     public void render(SpriteBatch batch){
@@ -90,10 +86,6 @@ public class ParticleHandler {
         for (ShockwaveSystem system :
                 yellowWaves) {
             system.render(camera, batch, yellowShockWave);
-        }
-        for (SplitterSystem system :
-                splitterSystems) {
-            system.render(batch, camera);
         }
     }
     private void loadExplosion() {
@@ -123,10 +115,6 @@ public class ParticleHandler {
 
     public void addDeflectWave(Vector2 logicPos) {
         yellowWaves.add(new ShockwaveSystem(logicPos, 0.2f, 2f));
-    }
-
-    public void addSplitters(Vector2 logicPosition){
-        splitterSystems.add(new SplitterSystem(logicPosition, blood));
     }
 
     public void dispose() {

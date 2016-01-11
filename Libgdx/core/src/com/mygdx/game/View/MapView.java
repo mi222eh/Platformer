@@ -5,8 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerAdapter;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Model.Entities.*;
@@ -20,20 +22,32 @@ import com.mygdx.game.View.EntityView.PlayerView.PlayerView;
  * Created by Hitstorm13 on 2015-12-07.
  */
 public class MapView {
+
+    //Entity Views
     PlayerView playerView;
     RunningEnemyView runningEnemyView;
     CannonView cannonView;
+    GoalView goalView;
+
+    //Model
     Map map;
     Array<Platform> platforms;
     Array<Spike> spikes;
-    Camera camera;
-    GoalView goalView;
-    ControllerAdapter controllerAdapter;
 
+    //Camera
+    Camera camera;
+
+    //Background values
+    float backGroundSpeed;
+
+    //Textures
     Sprite platFormTexture, platformBackgroundTexture, spikesTexture, backGround;
 
+    //Font
+    BitmapFont bitmapFont;
+
     public MapView(Map map, Camera camera){
-        controllerAdapter = new ControllerAdapter();
+        backGroundSpeed = 0.10f;
         this.map = map;
         this.platforms = map.getPlatforms();
         this.spikes = map.getSpikes();
@@ -46,9 +60,10 @@ public class MapView {
         spikesTexture = new Sprite(new Texture(Gdx.files.internal("Textures/Spikes.png")));
         this.goalView = new GoalView(camera, map.getGoal());
         backGround = new Sprite(new Texture(Gdx.files.internal("Textures/Background.png")));
+        bitmapFont = new BitmapFont(Gdx.files.internal("fonts/deathCountFont.fnt"));
     }
 
-    public void render(SpriteBatch batch, float time){
+    public void render(SpriteBatch batch, float time, int numberOfDeaths){
         drawBackground(batch);
         drawPlatforms(batch);
         drawSpikes(batch);
@@ -56,12 +71,16 @@ public class MapView {
         runningEnemyView.draw(batch, time, map.isPaused());
         cannonView.draw(batch);
         goalView.render(batch, time, map.isPlayerWon());
+        drawNumberOfDeaths(batch, numberOfDeaths);
+    }
+
+    private void drawNumberOfDeaths(SpriteBatch batch, int numberOfDeaths){
+        bitmapFont.draw(batch, "Deaths: " + numberOfDeaths , camera.optimizedWidth * 0.01f, camera.optimizedHeight  - camera.optimizedHeight * 0.01f);
     }
 
     private void drawPlatforms(SpriteBatch batch){
         for (Platform platform :
                 platforms) {
-
             float width = platform.width * camera.PPMX;
             float height = platform.height * camera.PPMY;
             Vector2 viewPos = camera.getViewPosition(platform.position);
@@ -88,7 +107,6 @@ public class MapView {
                 spikesTexture.setPosition(viewPos.x - camera.displacement, viewPos.y);
                 spikesTexture.draw(batch);
             }
-
         }
     }
 
