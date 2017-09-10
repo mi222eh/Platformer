@@ -1,11 +1,12 @@
 package com.mygdx.game.View.EntityView.EnemyView;
 
+import com.badlogic.gdx.utils.Pool;
 import com.mygdx.game.Model.Entities.RunningEnemy;
 
 /**
  * Created by Hitstorm13 on 2015-12-15.
  */
-public class EnemyState {
+public class EnemyState implements Pool.Poolable {
     //Model
     public RunningEnemy runningEnemy;
 
@@ -16,12 +17,18 @@ public class EnemyState {
     public boolean onGround;
     public boolean inAir;
 
-    public EnemyState(RunningEnemy runningEnemy){
+    public EnemyState(){
+
+    }
+
+    public void init(RunningEnemy runningEnemy){
         this.runningEnemy = runningEnemy;
         onGround = true;
         inAir = false;
         stateTime = 0;
     }
+
+
 
     public void resetTime(){
         stateTime = 0;
@@ -45,5 +52,13 @@ public class EnemyState {
             inAir = true;
             onGround = false;
         }
+    }
+
+    @Override
+    public void reset() {
+        runningEnemy = null;
+        stateTime = 0;
+        onGround = false;
+        inAir = false;
     }
 }

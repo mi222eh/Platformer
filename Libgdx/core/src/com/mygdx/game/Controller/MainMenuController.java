@@ -29,6 +29,9 @@ public class MainMenuController implements Screen {
     //Sounds
     Sound hoverSound, clickSound;
 
+    // MainGameController
+    MainGameController mainGameController;
+
     private boolean isInInstruction;
     private boolean isInLevelSelect;
 
@@ -40,13 +43,16 @@ public class MainMenuController implements Screen {
 
         hoverSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Hover.wav"));
         clickSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Click.wav"));
+
+        mainMenu = new MainMenu(camera, hoverSound, clickSound);
+        instructionMenu = new InstructionsMenu(camera, hoverSound, clickSound);
+        levelMenu = new LevelMenu(camera, hoverSound, clickSound);
+        mainGameController = new MainGameController(game, camera);
     }
 
     @Override
     public void show() {
-        mainMenu = new MainMenu(camera, hoverSound, clickSound);
-        instructionMenu = new InstructionsMenu(camera, hoverSound, clickSound);
-        levelMenu = new LevelMenu(camera, hoverSound, clickSound);
+        mainGameController.setReturnScreen(this);
     }
 
     @Override
@@ -107,14 +113,16 @@ public class MainMenuController implements Screen {
             isInLevelSelect = false;
         }
         if (levelMenu.doesUserWantToGoLevel1()){
-            game.setScreen(new MainGameController(game, camera, 1, 0));
-            dispose();
+            mainGameController.init(1);
+            game.setScreen(mainGameController);
         }
         if (levelMenu.doesUserWantoToGoLevel2()){
-            game.setScreen(new MainGameController(game, camera, 2, 0));
+            mainGameController.init(2);
+            game.setScreen(mainGameController);
         }
         if (levelMenu.doesUuserWantToGoLevel3()){
-            game.setScreen(new MainGameController(game, camera, 3, 0));
+            mainGameController.init(3);
+            game.setScreen(mainGameController);
         }
     }
 

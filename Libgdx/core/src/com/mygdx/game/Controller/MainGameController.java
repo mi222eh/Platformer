@@ -27,6 +27,9 @@ public class MainGameController implements Screen{
     PauseMenu pauseMenu;
     WinMenu winMenu;
 
+    //Return Screen
+    Screen returnScreen;
+
     //User state
     private boolean retry;
     private boolean goToMainMenu;
@@ -66,36 +69,60 @@ public class MainGameController implements Screen{
     //number of deaths
     private int deaths;
 
-    public MainGameController(Platformer platformer, Camera camera, int level, int deaths) {
-        fpsLogger = new FPSLogger();
-        justDied = false;
+    public MainGameController(Platformer platformer, Camera camera) {
+
         game = platformer;
-        stepTime = (float)1/60;
-        accumulatedTime = 0;
         this.camera = camera;
-        this.deaths = deaths;
-        currentLevel = level;
-
-        hoverSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Hover.wav"));
-        clickSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Click.wav"));
+        mapLoader = new TmxMapLoader();
+        map = new Map();
+        particleController = new ParticleController(camera);
+        map.addObserver(particleController);
+        fpsLogger = new FPSLogger();
+        mapView = new MapView(map, camera);
     }
-
     @Override
     public void show() {
+        justDied = false;
+        stepTime = (float)1/60;
+        accumulatedTime = 0;
         replay = false;
         goToMainMenu = false;
         retry = false;
-        particleController = new ParticleController(camera);
-        mapLoader = new TmxMapLoader();
-        TiledMap tiledMap = mapLoader.load("maps/map" + currentLevel + ".tmx");
-        map = new Map(tiledMap, particleController);
-        mapView = new MapView(map, camera);
         camera.setStageWidth(map.width);
+
+        hoverSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Hover.wav"));
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Click.wav"));
 
         deadMenu = new DeadMenu(camera, hoverSound, clickSound);
         pauseMenu = new PauseMenu(camera, hoverSound, clickSound);
         winMenu = new WinMenu(camera, hoverSound, clickSound);
+
+
+        mapView.initTextures();
     }
+
+    public void setReturnScreen(Screen screen){
+        returnScreen = screen;
+    }
+
+    public void init(int level){
+        currentLevel = level;
+        TiledMap tiledMap = mapLoader.load("maps/map" + level + ".tmx");
+        map.init(tiledMap);
+        tiledMap.dispose();
+        mapView.initValues();
+        particleController.init();
+    }
+
+    public void reInit(int deaths){
+        this.deaths = deaths;
+        justDied = false;
+        retry = false;
+        map.reset();
+        mapView.initValues();
+    }
+
+
 
     @Override
     public void render(float delta) {
@@ -137,17 +164,15 @@ public class MainGameController implements Screen{
         game.batch.end();
 
         if (retry){
-            dispose();
-            game.setScreen(new MainGameController(game, camera, currentLevel, deaths));
+            reInit(deaths);
         }
 
         if (goToMainMenu){
+            game.setScreen(returnScreen);
             dispose();
-            game.setScreen(new MainMenuController(game, camera));
         }
         if (replay){
-            dispose();
-            game.setScreen(new MainGameController(game, camera, currentLevel, 0));
+            reInit(0);
         }
     }
 
@@ -194,7 +219,6 @@ public class MainGameController implements Screen{
     private void handlePauseMenu() {
         if (pauseMenu.doesUserWantTOGoToMainMenu()){
             goToMainMenu = true;
-            dispose();
         }
         if (pauseMenu.doesUserWantToResume()){
             map.togglePause();
@@ -239,5 +263,8 @@ public class MainGameController implements Screen{
         mapView.dispose();
         particleController.dispose();
         deadMenu.dispose();
+        hoverSound.dispose();
+        clickSound.dispose();
+        pauseMenu.dispose();
     }
 }

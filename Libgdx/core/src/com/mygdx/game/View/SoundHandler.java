@@ -10,6 +10,9 @@ public class SoundHandler {
     Sound swordSound, jumpSound, dieSound, killSound, shootSound, explosionSound, winSound;
 
     public SoundHandler(){
+
+    }
+    public void init(){
         swordSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/swordSlash.wav"));
         jumpSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Jump.wav"));
         dieSound = Gdx.audio.newSound(Gdx.files.internal("SoundEffects/Die.wav"));

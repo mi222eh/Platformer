@@ -55,7 +55,7 @@ public class Player {
     private Vector2 maxVelocity;
 
 
-    public Player(Vector2 logicPos){
+    public Player(){
         delay = 0.1f;
         delayCollector = 0f;
 
@@ -81,14 +81,13 @@ public class Player {
         width = 0.8f;
         feetHeight = 0.2f;
 
+        //Player values (areas)
+        playerFeet = new Rectangle();
+        playerBody = new Rectangle();
+
         //Player values (Vector 2s)
         velocity = new Vector2(0,0);
         maxVelocity = new Vector2(0.2f, 0.4f);
-        position = logicPos;
-
-        //Player values (areas)
-        playerFeet = new Rectangle(position.x, position.y, width, feetHeight);
-        playerBody = new Rectangle(position.x, position.y, width, height);
 
         //<------------------Sword---------------->
         swordHeight = 1.7f;
@@ -98,8 +97,20 @@ public class Player {
         maxAttackTime = 0.1f;
         attackTime = coolDown + maxAttackTime;
 
-        swordArea = new Rectangle(position.x + width, position.y + ((height - swordHeight) / 2), swordWidth, swordHeight);
+        swordArea = new Rectangle();
 
+    }
+    public void setPosition(Vector2 logicPos){
+        position = logicPos;
+
+        //Player values (areas)
+        playerFeet.set(position.x, position.y, width, feetHeight);
+        playerBody.set(position.x, position.y, width, height);
+
+        velocity.set(0,0);
+
+        //<------------------Sword---------------->
+        swordArea.set(position.x + width, position.y + ((height - swordHeight) / 2), swordWidth, swordHeight);
     }
     public void step(float time, Vector2 gravity){
 

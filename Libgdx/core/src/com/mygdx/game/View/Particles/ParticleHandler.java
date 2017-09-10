@@ -32,13 +32,16 @@ public class ParticleHandler {
     Array<ShockwaveSystem> yellowWaves;
 
     public ParticleHandler(Camera camera){
+        this.camera = camera;
+    }
+
+    public void init(){
         _shockwave = new Sprite(new Texture(Gdx.files.internal("Textures/PlayerExplodeWave.png")));
         _smoke = new Sprite(new Texture(Gdx.files.internal("Textures/smoke_particle.png")));
         greenShockWave = new Sprite(new Texture(Gdx.files.internal("Textures/GreenShockWave.png")));
         yellowShockWave = new Sprite(new Texture(Gdx.files.internal("Textures/YellowShockWave.png")));
         blood = new Sprite(new Texture(Gdx.files.internal("Textures/Blood.png")));
         loadExplosion();
-        this.camera = camera;
         combinedExplosionSystems = new Array<CombinedExplosionSystem>();
         deathwaves = new Array<ShockwaveSystem>();
         greenWaves = new Array<ShockwaveSystem>();

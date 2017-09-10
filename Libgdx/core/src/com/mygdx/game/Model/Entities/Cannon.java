@@ -3,16 +3,20 @@ package com.mygdx.game.Model.Entities;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 
 /**
  * Created by Hitstorm13 on 2015-12-15.
  */
-public class Cannon {
+public class Cannon implements Pool.Poolable{
 
-    //<--------Cannon
+
+    //<--------Statics
     public static float delay = 1.5f;
     public static float height = 1.2f;
     public static float width = 1f;
+
+    //<--------Cannon
     public Vector2 position;
     public boolean active;
     public boolean dead;
@@ -26,7 +30,21 @@ public class Cannon {
     public static float numberOfBullets = (bulletDistance / bulletSpeed) / delay;
     public Array<CannonBullet> cannonBullets;
 
-    public Cannon(Vector2 position){
+    public Cannon(){
+
+    }
+
+    @Override
+    public void reset() {
+        this.position.set(0, 0);
+        this.active = false;
+        this.dead = false;
+        this.area.set(0,0,0,0);
+        this.bullets_fired = 0;
+        this.stateTime = 0;
+    }
+
+    public void init(Vector2 position){
         this.stateTime = 0;
         this.bullets_fired = 0;
         this.active = false;
@@ -111,4 +129,5 @@ public class Cannon {
         }
         return swordHits;
     }
+
 }

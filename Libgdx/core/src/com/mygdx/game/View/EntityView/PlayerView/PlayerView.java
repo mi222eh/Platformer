@@ -43,9 +43,13 @@ public class PlayerView {
     boolean playerIsAttacking;
 
 
-    public PlayerView(Player player, Camera camera){
-        this.player = player;
+    public PlayerView(Camera camera){
         this.camera = camera;
+
+    }
+
+    public void initValues(Player player){
+        this.player = player;
         stateTime = 0;
         standTime = 3f;
         walkTime = 0.3f;
@@ -54,6 +58,9 @@ public class PlayerView {
         playerIsStanding = false;
         playerIsWalking = false;
         playerIsAttacking = false;
+    }
+
+    public void initTextures(){
         loadSwordSlash();
         loadPlayerFall();
         loadPlayerJump();
@@ -75,11 +82,9 @@ public class PlayerView {
 
         batch.draw(currentFrame, position.x - camera.displacement, position.y, width, height);
     }
-
     private void loadSwordSlash(){
         swordSlashFrames = Tools.loadFrames("Textures/SwordSlash.png", 6, 1);
     }
-
     private void loadPlayerWalking(){
         playerWalkFrames = Tools.loadFrames("Textures/PlayerWalking.png", 4, 1);
     }
@@ -89,7 +94,6 @@ public class PlayerView {
     private void loadPlayerJump(){
         playerJumpTexture = new Sprite(new Texture(Gdx.files.internal("Textures/PlayerJump.png")));
     }
-
     public void draw(SpriteBatch batch, float time, boolean isPaused, boolean hasWon){
         if (!hasWon) {
             updateState();
@@ -114,9 +118,6 @@ public class PlayerView {
             }
         }
     }
-
-
-
     private TextureRegion flipFrame(TextureRegion frame){
         if(player.facesRight){
             if(frame.isFlipX()){
@@ -130,18 +131,15 @@ public class PlayerView {
         }
         return frame;
     }
-
     private void drawPlayerFalling(SpriteBatch batch){
         playerFallTexture = flipFrame(playerFallTexture);
         draw(player.width, player.height, player.position, playerFallTexture, batch);
     }
-
     private void drawPlayerJumping(SpriteBatch batch){
         playerJumpTexture = flipFrame(playerJumpTexture);
 
         draw(player.width, player.height, player.position, playerJumpTexture, batch);
     }
-
     private TextureRegion getCurrentFrame(float percent, TextureRegion[] frames, float actionTime){
         int frame = (int)(frames.length * percent);
 
@@ -153,14 +151,12 @@ public class PlayerView {
         return frames[frame];
 
     }
-
     private void draw(float logicWidth, float logicHeight, Vector2 logicPosition, TextureRegion texture, SpriteBatch batch){
         Vector2 visualPos = camera.getViewPosition(logicPosition);
         float width = logicWidth * camera.PPMX;
         float height = logicHeight * camera.PPMY;
         batch.draw(texture, visualPos.x - camera.displacement, visualPos.y, width, height);
     }
-
     private void drawWalkingPlayer(SpriteBatch batch, float time, boolean isPaused){
         if (!isPaused){
             stateTime += time;
@@ -169,7 +165,6 @@ public class PlayerView {
         TextureRegion currentFrame = flipFrame(getCurrentFrame(percent, playerWalkFrames, walkTime));
         draw(player.width, player.height, player.position, currentFrame, batch);
     }
-
     private void drawStandingPlayer(SpriteBatch batch, float time, boolean isPaused){
         if (!isPaused){
             stateTime += time;
@@ -178,14 +173,12 @@ public class PlayerView {
         TextureRegion currentFrame = flipFrame(getCurrentFrame(percent, playerStandFrames, standTime));
         draw(player.width, player.height, player.position, currentFrame, batch);
     }
-
     private void resetState(){
         playerIsFalling = false;
         playerIsWalking = false;
         playerIsJumping = false;
         playerIsStanding = false;
     }
-
     private void updateState(){
         if (player.idle && player.onGround && player.velocity.x == 0){
             if (playerIsWalking || playerIsJumping || playerIsFalling){
@@ -221,12 +214,9 @@ public class PlayerView {
 
 
     }
-
     private void loadPlayerStandingAnimation(){
         playerStandFrames = Tools.loadFrames("Textures/PlayerStand.png", 6, 1);
     }
-
-
     public void dispose() {
         Tools.disposeTextures(playerStandFrames);
         Tools.disposeTextures(playerWalkFrames);

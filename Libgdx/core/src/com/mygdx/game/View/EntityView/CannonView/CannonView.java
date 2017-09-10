@@ -23,10 +23,14 @@ public class CannonView {
     //Model
     Array<Cannon> cannons;
 
-    public CannonView(Camera camera, Array<Cannon> cannons){
+    public CannonView(Camera camera){
         this.camera = camera;
+    }
+    public void initValues( Array<Cannon> cannons){
         this.cannons = cannons;
+    }
 
+    public void initTextures(){
         cannonTexture = new Sprite(new Texture(Gdx.files.internal("Textures/Cannon.png")));
         cannonDeadTexture = new Sprite(new Texture(Gdx.files.internal("Textures/CannonDestroyed.png")));
         bulletTexture = new Sprite(new Texture(Gdx.files.internal("Textures/Bullet.png")));

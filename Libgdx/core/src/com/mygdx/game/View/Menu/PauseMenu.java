@@ -59,4 +59,9 @@ public class PauseMenu {
     public boolean doesUserWantTOGoToMainMenu(){
         return MainMenu.handleButton(camera);
     }
+
+    public void dispose() {
+        MainMenu.dispose();
+        Resume.dispose();
+    }
 }

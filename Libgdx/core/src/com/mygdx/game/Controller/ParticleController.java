@@ -22,9 +22,12 @@ public class ParticleController implements ParticleObserver{
     public ParticleController(Camera camera){
         this.camera = camera;
 
-
         particleHandler = new ParticleHandler(camera);
         soundHandler = new SoundHandler();
+    }
+    public void init(){
+        particleHandler.init();
+        soundHandler.init();
     }
 
     public void dispose(){

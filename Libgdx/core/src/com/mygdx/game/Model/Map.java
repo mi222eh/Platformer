@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 import com.mygdx.game.Model.Entities.*;
 import com.mygdx.game.Model.Interface.ParticleObserver;
 
@@ -16,10 +17,12 @@ public class Map {
     private boolean isPaused;
 
     //Observer
-    ParticleObserver particleObserver;
+    Array<ParticleObserver>observers;
 
     //Map properties
     private Vector2 gravity;
+
+
 
 
     //Player Actions
@@ -37,19 +40,59 @@ public class Map {
     private Array<Cannon> cannons;
     private Goal goal;
 
+    //Map Objects Pool
+    private Pool<Platform>platformPool;
+    private Pool<Spike>spikePool;
+    private Pool<RunningEnemy>runningEnemyPool;
+    private Pool<Cannon>cannonPool;
+
     //width of the stage
     public float width;
 
-    public Map(TiledMap tiledMap, ParticleObserver particleObserver){
+    //Current map
+    TiledMap currentMap;
+
+    public Map(){
+        this.cannonPool = new Pool<Cannon>() {
+            @Override
+            protected Cannon newObject() {
+                return new Cannon();
+            }
+        };
         playerWon = false;
-        this.particleObserver = particleObserver;
-        loadPlatforms(tiledMap);
-        loadSpikes(tiledMap);
-        loadPlayer(tiledMap);
-        loadEnemies(tiledMap);
-        loadCannons(tiledMap);
-        loadGoal(tiledMap);
+        observers = new Array<ParticleObserver>();
         gravity = new Vector2(0, -2f);
+        player = new Player();
+    }
+
+    public void init (TiledMap tiledMap){
+        if (currentMap != null){
+            currentMap.dispose();
+        }
+        playerWon = false;
+        currentMap = tiledMap;
+        loadCurrentMap();
+        isPaused = false;
+    }
+
+    public void addObserver(ParticleObserver observer){
+        observers.add(observer);
+    }
+
+    public void reset(){
+        isPaused = false;
+        playerWon = false;
+        player.dead = false;
+        loadCurrentMap();
+    }
+
+    private void loadCurrentMap(){
+        loadPlatforms(currentMap);
+        loadSpikes(currentMap);
+        loadPlayer(currentMap);
+        loadEnemies(currentMap);
+        loadCannons(currentMap);
+        loadGoal(currentMap);
     }
 
     private void loadCannons(TiledMap tiledMap){
@@ -59,7 +102,9 @@ public class Map {
             for (int x = 0; x < layer.getWidth(); x++) {
                 if (layer.getCell(x, y) != null) {
                     Vector2 pos = new Vector2(x, y);
-                    cannons.add(new Cannon(pos));
+                    Cannon cannon = new Cannon();
+                    cannon.init(pos);
+                    cannons.add(cannon);
                 }
             }
         }
@@ -127,7 +172,7 @@ public class Map {
             for (int x = 0; x < layer.getWidth(); x++) {
                 if (layer.getCell(x, y) != null) {
                     Vector2 pos = new Vector2(x, y);
-                    player = new Player(pos);
+                    player.setPosition(pos);
                 }
             }
         }
@@ -165,7 +210,10 @@ public class Map {
     private void handleGoal(){
         if (goal.isColliding(player.playerBody) && !player.dead && !playerWon){
             playerWon = true;
-            particleObserver.addWinSound();
+            for (ParticleObserver observer:
+                    observers) {
+                observer.addWinSound();
+            }
         }
     }
     
@@ -174,12 +222,18 @@ public class Map {
                 cannons) {
             cannon.update(player);
             if(cannon.step(time)){
-                particleObserver.shootSound();
+                for (ParticleObserver observer:
+                        observers) {
+                    observer.shootSound();
+                }
             }
             if (cannon.hits(player) && !player.dead && !isPlayerWon()){
                 player.setDead();
-                particleObserver.deadSound();
-                particleObserver.addDeathWave(new Vector2(player.position.x + player.width / 2, player.position.y + player.height / 2));
+                for (ParticleObserver observer:
+                        observers) {
+                    observer.deadSound();
+                    observer.addDeathWave(new Vector2(player.position.x + player.width / 2, player.position.y + player.height / 2));
+                }
             }
         }
     }
@@ -197,14 +251,20 @@ public class Map {
 
         if(playerJump){
             if(player.jump()){
-                particleObserver.jumpSound();
+                for (ParticleObserver observer:
+                        observers) {
+                    observer.jumpSound();
+                }
             }
             playerJump = false;
 
         }
         if(playerAttacks){
             if(player.attack()){
-                particleObserver.slashSound();
+                for (ParticleObserver observer:
+                        observers) {
+                    observer.slashSound();
+                }
             }
             playerAttacks = false;
         }
@@ -217,8 +277,11 @@ public class Map {
                 if (!runningEnemy.dead) {
                     if(runningEnemy.isHit(player.swordArea)){
                         runningEnemy.dead = true;
-                        particleObserver.killSound();
-                        particleObserver.addSlashWave(new Vector2(runningEnemy.position.x + RunningEnemy.width / 2,runningEnemy.position.y + RunningEnemy.height / 2));
+                        for (ParticleObserver observer:
+                                observers) {
+                            observer.killSound();
+                            observer.addSlashWave(new Vector2(runningEnemy.position.x + RunningEnemy.width / 2,runningEnemy.position.y + RunningEnemy.height / 2));
+                        }
                     }
                 }
             }
@@ -227,14 +290,19 @@ public class Map {
                 for (CannonBullet bullet :
                         cannon.cannonBullets) {
                     if (bullet.isHit(player.swordArea) && bullet.active){
-                        particleObserver.killSound();
-                        particleObserver.addBulletDeflectWave(new Vector2(bullet.position.x + CannonBullet.width / 2, bullet.position.y + CannonBullet.height / 2));
+                        for (ParticleObserver observer:
+                                observers) {
+                            observer.killSound();
+                            observer.addBulletDeflectWave(new Vector2(bullet.position.x + CannonBullet.width / 2, bullet.position.y + CannonBullet.height / 2));
+                        }
                     }
                 }
                 if (cannon.isHit(player.swordArea)) {
-                    particleObserver.explosionSound();
-                    //Center point of the cannon
-                    particleObserver.addExplosion(new Vector2(cannon.position.x + Cannon.width / 2, cannon.position.y + Cannon.height / 2));
+                    for (ParticleObserver observer:
+                            observers) {
+                        observer.explosionSound();
+                        observer.addExplosion(new Vector2(cannon.position.x + Cannon.width / 2, cannon.position.y + Cannon.height / 2));
+                    }
                 }
             }
         }
@@ -268,8 +336,11 @@ public class Map {
                 }
                 if(runningEnemy.doesHit(player) && !runningEnemy.dead && !player.dead && !isPlayerWon()){
                     player.setDead();
-                    particleObserver.deadSound();
-                    particleObserver.addDeathWave(new Vector2(player.position.x + player.width / 2, player.position.y + player.height / 2));
+                    for (ParticleObserver observer:
+                            observers) {
+                        observer.deadSound();
+                        observer.addDeathWave(new Vector2(player.position.x + player.width / 2, player.position.y + player.height / 2));
+                    }
                 }
             }
             runningEnemy.setActive(16, player);
@@ -282,8 +353,11 @@ public class Map {
                 spikes) {
             if (spike.isColliding(player) && !player.dead && !isPlayerWon() && !isPlayerWon()) {
                 player.setDead();
-                particleObserver.deadSound();
-                particleObserver.addDeathWave(new Vector2(player.position.x + player.width / 2, player.position.y + player.height / 2));
+                for (ParticleObserver observer:
+                        observers) {
+                    observer.deadSound();
+                    observer.addDeathWave(new Vector2(player.position.x + player.width / 2, player.position.y + player.height / 2));
+                }
             }
         }
     }

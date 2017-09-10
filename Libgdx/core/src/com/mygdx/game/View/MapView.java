@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Model.Entities.*;
 import com.mygdx.game.Model.Map;
+import com.mygdx.game.View.EntityView.BackgroundView.BackgroundView;
 import com.mygdx.game.View.EntityView.CannonView.CannonView;
 import com.mygdx.game.View.EntityView.EnemyView.RunningEnemyView;
 import com.mygdx.game.View.EntityView.Goal.GoalView;
@@ -28,6 +29,7 @@ public class MapView {
     RunningEnemyView runningEnemyView;
     CannonView cannonView;
     GoalView goalView;
+    BackgroundView backgroundView;
 
     //Model
     Map map;
@@ -47,24 +49,39 @@ public class MapView {
     BitmapFont bitmapFont;
 
     public MapView(Map map, Camera camera){
-        backGroundSpeed = 0.10f;
         this.map = map;
-        this.platforms = map.getPlatforms();
-        this.spikes = map.getSpikes();
         this.camera = camera;
-        this.playerView = new PlayerView(map.getPlayer(), camera);
-        this.runningEnemyView = new RunningEnemyView(camera, map.getRunningEnemies());
-        this.cannonView = new CannonView(camera, map.getCannons());
+        runningEnemyView = new RunningEnemyView(camera);
+        playerView = new PlayerView(camera);
+        cannonView = new CannonView(camera);
+        backgroundView = new BackgroundView(camera);
+    }
+
+    public void initTextures(){
+        backgroundView.initTextures();
+        runningEnemyView.initTextures();
+        playerView.initTextures();
+        cannonView.initTextures();
         platFormTexture = new Sprite(new Texture(Gdx.files.internal("Textures/Platform.png")));
         platformBackgroundTexture = new Sprite(new Texture(Gdx.files.internal("Textures/PlatformBackGround.png")));
         spikesTexture = new Sprite(new Texture(Gdx.files.internal("Textures/Spikes.png")));
-        this.goalView = new GoalView(camera, map.getGoal());
+        goalView = new GoalView(camera, map.getGoal());
         backGround = new Sprite(new Texture(Gdx.files.internal("Textures/Background.png")));
         bitmapFont = new BitmapFont(Gdx.files.internal("fonts/deathCountFont.fnt"));
     }
+    public void initValues(){
+        backgroundView.initValues(camera.optimizedWidth, camera.optimizedHeight);
+        runningEnemyView.initValues(map.getRunningEnemies());
+        playerView.initValues(map.getPlayer());
+        cannonView.initValues(map.getCannons());
+        backGroundSpeed = 0.10f;
+        platforms = map.getPlatforms();
+        spikes = map.getSpikes();
+    }
 
     public void render(SpriteBatch batch, float time, int numberOfDeaths){
-        drawBackground(batch);
+        backgroundView.draw(batch);
+        //drawBackground(batch);
         drawPlatforms(batch);
         drawSpikes(batch);
         playerView.draw(batch, time, map.isPaused(), map.isPlayerWon());
@@ -110,11 +127,12 @@ public class MapView {
         }
     }
 
+    /*
     private void drawBackground(SpriteBatch batch){
         backGround.setPosition(0 - camera.displacement * 0.10f, 0);
         backGround.draw(batch);
     }
-
+    */
     public boolean doesPlayerWantToMoveLeft(){
         return Gdx.input.isKeyPressed(Input.Keys.LEFT);
     }

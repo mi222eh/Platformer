@@ -2,11 +2,12 @@ package com.mygdx.game.Model.Entities;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pool;
 
 /**
  * Created by Hitstorm13 on 2015-12-15.
  */
-public class CannonBullet {
+public class CannonBullet implements Pool.Poolable{
     public static float height = Cannon.height * 0.3f;
     public static float width = Cannon.width * 0.5f;
     public Vector2 beginPosition;
@@ -67,5 +68,10 @@ public class CannonBullet {
 
     public void setDead() {
         alive = false;
+    }
+
+    @Override
+    public void reset() {
+
     }
 }

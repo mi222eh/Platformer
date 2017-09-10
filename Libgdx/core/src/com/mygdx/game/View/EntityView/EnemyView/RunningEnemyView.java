@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
 import com.mygdx.game.Model.Entities.RunningEnemy;
 import com.mygdx.game.View.Camera;
 import com.mygdx.game.View.Tools;
@@ -26,21 +27,38 @@ public class RunningEnemyView {
 
     //State view
     Array<EnemyState> enemyStates;
+    Pool<EnemyState> enemyStatePool;
 
     //Walktime for animation cycle
     private float walkTime;
 
 
-    public RunningEnemyView(Camera camera, Array<RunningEnemy> runningEnemies){
+    public RunningEnemyView(Camera camera){
         this.camera = camera;
         this.enemyStates = new Array<EnemyState>();
+        this.enemyStatePool = new Pool<EnemyState>() {
+            @Override
+            protected EnemyState newObject() {
+                return new EnemyState();
+            }
+        };
+
+        walkTime = 0.5f;
+    }
+    public void initValues(Array<RunningEnemy> runningEnemies){
+        enemyStatePool.freeAll(enemyStates);
+        enemyStates.clear();
         for (RunningEnemy runningEnemy :
                 runningEnemies) {
-            enemyStates.add(new EnemyState(runningEnemy));
+            EnemyState enemyState = enemyStatePool.obtain();
+            enemyState.init(runningEnemy);
+            enemyStates.add(enemyState);
         }
+    }
+
+    public void initTextures(){
         loadRunningEnemyWalkingFrames();
         loadEnemyInAirTexture();
-        walkTime = 0.3f;
     }
 
     private void loadRunningEnemyWalkingFrames(){
